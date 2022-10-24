@@ -8,7 +8,7 @@ Email: siva82kb@gmail.com
 """
 
 import numpy as np
-import support
+import monalysa.monalysa.support as support
 from scipy import signal
 from datetime import datetime as dt
 
