@@ -19,10 +19,8 @@ def from_vector_magnitude1(vecmag: np.array,
     from activity counts.
 
     Args:
-        vecmag (np.array): 1D numpy array containing the activity counts
-        time series.
-        threshold (float): Threshold for generating the binary UL use
-        output time series.
+        vecmag (np.array): 1D numpy array containing the activity counts time series.
+        threshold (float): Threshold for generating the binary UL use output time series.
 
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D 
@@ -48,8 +46,7 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     continuous time segment.  
 
     Args:
-        vecmag (np.array): 1D numpy array containing the activity counts
-        time series.
+        vecmag (np.array): 1D numpy array containing the activity counts time series.
         threshold0 (float): Threshold below which UL use signal is 0.
         threshold1 (float): Threshold above which UL use signal is 1.
 

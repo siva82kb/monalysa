@@ -11,7 +11,7 @@ import numpy as np
 from scipy import signal
 from datetime import datetime as dt
 
-import support
+import monalysa.monalysa.support as support
 
 
 def from_vector_magnitude(vecmag: np.array, usesig: np.array,

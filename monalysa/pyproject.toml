@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "monalysa"
+version = "0.0.1"
+description = "A unified library for carrying out quantitative movement analysis."
+authors = ["Sivakumar Balasubramanian (Siva) <siva82kb@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/siva82kb/monalysa"
+repository = "https://github.com/siva82kb/monalysa"
+keywords = ["movement analysis", "biomechanics", "neurorehabilitation", "sport science"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

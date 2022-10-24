@@ -1,2 +1,3 @@
 # monalysa
-A python-based movement analysis library.
+
+A unified library for carrying out quantitative movement analysis.

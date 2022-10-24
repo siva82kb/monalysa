@@ -8,7 +8,7 @@ from pandas import DataFrame
 from pandas import Timestamp, Timedelta
 from datetime import datetime as dt
 import datetime
-import misc
+import monalysa.misc as misc
 
 
 class ActiGraphData(object):
