@@ -22,4 +22,5 @@ doc = [
     "sphinx~=4.2.0",
     "myst-parser",
     "nbsphinx",
+    "furo",
 ]
