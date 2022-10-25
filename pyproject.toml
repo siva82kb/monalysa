@@ -12,15 +12,6 @@ keywords = ["movement analysis", "biomechanics", "neurorehabilitation", "sport s
 [tool.poetry.dependencies]
 python = "^3.9"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.extra]
-doc = [
-    "sphinx~=4.2.0",
-    "myst-parser",
-    "nbsphinx",
-    "furo",
-]

@@ -15,8 +15,8 @@ Monalysa relies on the following dependencies:
 You can check if a number is an integer use {py:func}`monalysa.monalysa.is_integer_num` function and have fun.
 
 ```{eval-rst}
-.. autofunction:: monalysa.monalysa.misc.is_integer_num 
-.. autofunction:: monalysa.monalysa.misc.is_binary_signal
+.. autofunction:: monalysa.misc.is_integer_num 
+.. autofunction:: monalysa.misc.is_binary_signal
 ```
 
 

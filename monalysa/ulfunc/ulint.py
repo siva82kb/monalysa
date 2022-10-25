@@ -11,7 +11,7 @@ import numpy as np
 from scipy import signal
 from datetime import datetime as dt
 
-import monalysa.monalysa.support as support
+from .. import misc
 
 
 def from_vector_magnitude(vecmag: np.array, usesig: np.array,
@@ -19,25 +19,25 @@ def from_vector_magnitude(vecmag: np.array, usesig: np.array,
     """Computes UL intensity from the vector magnitude values from the 
     Actigraph sensor.
 
-    Args:
-        vecmag (np.array): 1D numpy array containing the activity counts
-        time series.
-        usesig (np.array): 1D numpy array of the UL use binary signal.
-        nsample (int): The downsampling number for computing the instantaneous 
-        UL intensity of use. This number must be equal to the ratio of the 
-        sampling rate of the raw data (vecmag) and the uluse data. This means 
-        len(vecmag[::nsample]) == len(usesig).
+    Parameters
+    ----------
+    vecmag : np.array
+        1D numpy array containing the activity counts time series.
+    usesig : np.array
+        1D numpy array of the UL use binary signal.
+    nsample : int
+        The downsampling number for computing the instantaneous  UL intensity of use. This number must be equal to the ratio of the  sampling rate of the raw data (vecmag) and the uluse data. This means len(vecmag[::nsample]) == len(usesig).
 
-    Returns:
-        tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D 
-        array is the list of time indices of the computed UL use signal. The 
-        second ID array is the UL use signal, which is a binary
-        signal indicating the presence or absence of a "functional"
-        movement any time instant.
+    Returns
+    -------
+    tuple[np.array, np.array]
+        A tuple of 1D numpy arrays. The first 1D array is the list of time indices of the computed UL use signal. The second ID array is the UL use signal, which is a binary
+        signal indicating the presence or absence of a "functional" movement any time instant.
     """
+    
     assert len(vecmag) > 0, "vecmag cannot be a of zero length."
     assert np.nanmin(vecmag) >= 0., "Vector magnitude cannot be negative."
-    assert support.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
+    assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
     assert len(vecmag[::nsample]) == len(usesig), "The lengths of vecmag and usesig are not compatible."
     
     return (np.arange(0, len(vecmag), nsample), vecmag[::nsample] * usesig)
@@ -45,24 +45,27 @@ def from_vector_magnitude(vecmag: np.array, usesig: np.array,
 
 def average_intuse(intsig: np.array, usesig: np.array, windur: float,
                    winshift: float, sample_t: float) -> tuple[np.array, np.array]:
-    """Computes the average upper-limb intensity of use from the given
-    intensity and UL use signals. The current version only supports causal
-    averaging.
+    """Computes the average upper-limb intensity of use from the given intensity and UL use signals. The current version only supports causal averaging.
 
-    Args:
-        intsig (np.array): 1D numpy array of the UL intensity signal whose
-        average is to be computed.
-        usesig (np.array): 1D numpy array of the UL use (binary) signal.
-        dur (float): Duration in seconds over which the UL internsity signal
-        is to be averaged.
-        sample_t (float): Sampling time of the intsig and usesig signal.
+    Parameters
+    ----------
+    intsig : np.array
+        1D numpy array of the UL intensity signal whose average is to be computed.
+    usesig : np.array
+        1D numpy array of the UL use (binary) signal.
+    windur : float
+        Duration in seconds over which the UL internsity signal is to be averaged.
+    winshift : float
+        Time gap between two consecutive window locations.
+    sample_t : float
+        Sampling time of the intsig and usesig signal.
 
-    Returns:
-        tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D 
-        array is the list of time indices of the computed avarge UL intensity
-        of use signal. The second ID array is the average UL intensity of use
-        signal.
+    Returns
+    -------
+    tuple[np.array, np.array]
+        A tuple of 1D numpy arrays. The first 1D  array is the list of time indices of the computed avarge UL intensity of use signal. The second ID array is the average UL intensity of use signal.
     """
+    
     assert np.shape(intsig) == np.shape(usesig), "intsig and usesig must have the same shape."
     assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
     assert windur > 0, "windur (avaraging window duration) must be a positive number."

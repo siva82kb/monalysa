@@ -7,7 +7,3 @@ In the spirit of open science, the monalysa library provides open-source code fo
 
 ## Who is this library for?
 This library is aimed at students, researchers, clinicians and industry professionals working with movement data.
-
-## Contributors
-The details of the list of current contributors to the project can be found in the {doc}`contributors` pages.
-

@@ -8,9 +8,10 @@ Email: siva82kb@gmail.com
 """
 
 import numpy as np
-import monalysa.monalysa.support as support
 from scipy import signal
 from datetime import datetime as dt
+
+from .. import misc
 
 
 def from_vector_magnitude1(vecmag: np.array,
@@ -104,7 +105,7 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     assert windur > 0, "windur (avaraging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
     assert sample_t > 0, "sample_t (sampling time) must be a positive number."
-    assert support.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
+    assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
     
     n_win = int(windur / sample_t)
     n_shift = int(windur / sample_t)

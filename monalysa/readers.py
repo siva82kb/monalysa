@@ -8,7 +8,6 @@ from pandas import DataFrame
 from pandas import Timestamp, Timedelta
 from datetime import datetime as dt
 import datetime
-import monalysa.misc as misc
 
 
 class ActiGraphData(object):
@@ -29,8 +28,14 @@ class ActiGraphData(object):
         return _data
     
     def __init__(self, filename: str, devid: str):
-        """Class to handle data from an ActiGraph sensors.
-        Each class must be provided with an string (devid).
+        """Class to handle data from an ActiGraph sensors. Each class must be provided with an string (devid).
+
+        Parameters
+        ----------
+        filename : str
+            Name of the filke with the ActiGraph data.
+        devid : str
+            A unique ID for the device assigned by the user.
         """
         self._filename = filename
         self._id = devid

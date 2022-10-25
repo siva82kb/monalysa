@@ -34,18 +34,20 @@ def is_integer_num(n: Union[int, float]) -> bool:
 
 
 def is_binary_signal(sig: np.array, allownan=False) -> bool:
-    """Indicates if the given input signal is a binary signal. Nan values can
-    be allowed.
+    """Indicates if the given input signal is a binary signal. Nan values can be allowed.
 
-    Args:
-        sig (np.array): Input signal that is to be checked if it is a binary
-        signal.
-        allownan (bool): Boolean to include if nans are to be allowed in the 
-        signal when testing it.
+    Parameters
+    ----------
+    sig : np.array
+        Input signal that is to be checked if it is a binary signal.
+    allownan : bool, optional
+        Boolean to include if nans are to be allowed in the  signal when testing it., by default False
 
-    Returns:
-        bool: True if the signal is binary, else its False.
+    Returns
+    -------
+    bool
+        True if the signal is binary, else its False.
     """
-    _test = [sig != 0, sig != 1]
+    _test = [sig == 0, sig == 1]
     _test += [np.isnan(sig).tolist()] if allownan else []
     return np.all(np.any(_test, axis=0))
