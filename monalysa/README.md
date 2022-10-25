@@ -1,7 +1,8 @@
 # Monalysa
-** Still Under Development. Please check after some time.** 
 
-Monalysa or **Mo**vement A**naly**sis Libr**a**ry is a unified python library for quantifying movement behavior.
+**Still Under Development. Please check after some time.**
+
+Monalysa or **Mo**vement A**nalys**is Libr**a**ry is a unified python library for quantifying movement behavior.
 
 ## Purpose of the Package
 This is a single library with a set of data structures, functions, and classes required for quantifying and anlaysing movement behavior for applications in motor control/learning, biomechanics, sports science, and neurorehabilitation.
@@ -28,5 +29,5 @@ Coming soon.
 ## Authors
 Sivakumar Balasubramanian, CMC Vellore
 
-Alejandro Melendex-Calderon, Univ. of Queesland
+Alejandro Melendez-Calderon, Univ. of Queesland
 
