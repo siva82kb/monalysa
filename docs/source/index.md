@@ -18,4 +18,5 @@ To know more about the installation of Monalysa, visit {doc}`install`
 :maxdepth: 2
 
 install
+notebooks/tutorial
 ```
