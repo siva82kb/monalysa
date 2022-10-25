@@ -11,7 +11,11 @@
 This library is under development.
 ```
 
+To know more about the installation of Monalysa, visit {doc}`install`
+
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 2
+
+install
 ```
