@@ -17,12 +17,12 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'monalysa'
+project = 'Monalysa'
 copyright = '2022, Sivakumar Balasubramanian'
 author = 'Sivakumar Balasubramanian'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1' 
+release = '' 
 
 
 # -- General configuration ---------------------------------------------------

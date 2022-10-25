@@ -3,12 +3,12 @@
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
 
-```{include} ../../README.md
-:relative-images:
+```{warning} 
+[{sub-ref}`today`] This library is under development.
 ```
 
-```{warning}
-This library is under development.
+```{include} ../../README.md
+:relative-images:
 ```
 
 To know more about the installation of Monalysa, visit {doc}`install`
@@ -19,4 +19,5 @@ To know more about the installation of Monalysa, visit {doc}`install`
 
 install
 notebooks/tutorial
+contributors
 ```
