@@ -1,4 +1,4 @@
 numpy
 pandas
-matplotlin
+matplotlib
 scipy
