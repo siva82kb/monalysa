@@ -1,5 +1,5 @@
 """
-A set of tests for the monalysa package.
+A set of tests for the misc module.
 
 Author: Sivakumar Balasubramanian
 Email: siva82kb@gmail.com
@@ -8,10 +8,17 @@ Date: 25 Oct 2022
 
 import sys
 sys.path.append("..")
+import numpy as np
 
+import monalysa
 from monalysa import misc
 
-import numpy as np
+
+def test_monalysa_import():
+    assert '__version__' in dir(monalysa)
+    assert 'misc' in dir(monalysa)
+    assert 'readers' in dir(monalysa)
+    assert 'ulfunc' in dir(monalysa)
 
 
 def test_is_integer_num():
