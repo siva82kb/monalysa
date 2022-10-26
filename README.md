@@ -1,4 +1,4 @@
-# Monalysa - **Mo**vement  A**nalys**is Libr**a**ry 
+# <span style="color:#555"><span style="color:#A62B17">**Mo**</span>vement  A<span style="color:#A62B17">**nalys**</span>is Libr<span style="color:#A62B17">**a**</span>ry (Monalysa)</span>
 
 Monalysa, _aka_ <u>**Mo**</u>ovement a<u>**nalys**</u>is libr<u>**a**</u>y, is a unified python library for the quantitative analysis of sensorimotor behavior. Monalysa provides a set of data structures, functions, and classes for representing, analyzing, and visualizing movement-related data from different technologies (motion capture, inertial measurement units, robots, force/torque sensors, force plates, etc.).
 

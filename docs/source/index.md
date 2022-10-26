@@ -2,11 +2,11 @@
 % sphinx-quickstart on Tue Oct 25 09:26:16 2022.
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
-
+ 
 ```{warning} 
 [{sub-ref}`today`] This library is under development.
 ```
-
+    
 ```{include} ../../README.md
 :relative-images:
  ```
