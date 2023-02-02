@@ -164,6 +164,6 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
 
     n_win = int(windur / sample_t)
-    n_shift = int(windur / sample_t)
+    n_shift = int(winshift / sample_t)
     avguse = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=usesig)
     return (np.arange(0, len(usesig), n_shift), avguse[::n_shift])
