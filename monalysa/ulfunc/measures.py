@@ -3,9 +3,9 @@ ulfunc.py contains functions and classes for implementing different measures
 for quantifying upper-limb functioning. 
 """
 
-import numpy as np
 from scipy import signal
-from datetime import datetime as dt
+# from datetime import datetime as dt
+import numpy as np
 
 
 class ULUse(object):
@@ -216,3 +216,71 @@ def Rq(domnaff: np.array, ndomaff: np.array, q: float) -> tuple[float, float]:
     
     return (_q12 / np.max([np.square(_q1), np.square(_q2)]),
             0 if _q1 == _q2 else np.sign(_q1 - _q2))
+
+
+def instantaneous_latindex(domnaff: np.array, ndomaff: np.array) -> tuple[np.array, np.array]:
+    """Computes the instantaneous laterality index using the two give signals 
+    corresponding to the two arms. This can be computed with either 
+    instantaneous use or intensity signals. Both signals must be of the same 
+    type, i.e. both must be use signals or both must be intensity signals. 
+    Mixing signals will produce results that are not interpretable.
+
+    Parameters
+    ----------
+    domnaff : np.array
+        Instantaneous use or intensity signal for the dominant or the 
+        unaffected upper-limb.
+    ndomaff : np.array
+        Instantaneous use or intensity signal for the non-dominant or the 
+        affected upper-limb.
+
+    Returns
+    -------
+    tuple[np.array, np.array]
+        A tuple of 1D numpy arrays. The first 1D  array is the list of time indices of the computed instantaneous laterality index signal. The second ID array is the instantaneous laterality index signal.
+    """
+    if np.all(np.isnan(domnaff)) or np.all(np.isnan(ndomaff)):
+        return np.ones(len(domnaff)) * np.NaN
+    
+    assert len(domnaff) == len(ndomaff), "Both the dominant and non-dominant signals must be of the same length."
+    assert np.nanmin(domnaff) >= 0, "The input dominant/affected limb signal must be non-negative."
+    assert np.nanmin(ndomaff) >= 0, "The input non-dominant/unaffected limb signal must be non-negative."
+    
+    _sum = np.array(ndomaff) + np.array(domnaff)
+    _diff = np.array(ndomaff) - np.array(domnaff)
+    _diff[_sum == 0] = np.NaN
+    _diff[_sum != 0] = _diff[_sum != 0] / _sum[_sum != 0]
+    return np.arange(0, len(_diff)), _diff
+
+
+def average_latindex(latinx_inst: np.array, windur: float, winshift: float,
+                           sample_t: float) -> tuple[np.array, np.array]:
+    """Compute the average of the instantaneous laterality index signal.
+
+    Parameters
+    ----------
+    latinx_inst : np.array
+        The instantaneous laterality index signal.
+    windur : float
+        Duration in seconds over which the UL use signal is to be averaged.
+    winshift : float
+        Time shift between two consecutive averaging windows.
+    sample_t : float
+        Sampling time of the usesig signal.
+
+    Returns
+    -------
+    tuple[np.array, np.array]
+        A tuple of 1D numpy arrays. The first 1D  array is the list of time indices of the computed avarge laterality index signal. The second ID array is the avarage laterality index signal.
+    """
+    
+    assert windur > 0, "windur (avaraging window duration) must be a positive number."
+    assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
+    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
+    assert np.all(np.array([np.array(latinx_inst) <= 1,
+                            np.array(latinx_inst) >= -1])), "Laterality index signal cannot less than -1 or greater than +1."
+    
+    n_win = int(windur / sample_t)
+    n_shift = int(windur / sample_t)
+    avg_latinx = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=latinx_inst) 
+    return (np.arange(0, len(latinx_inst), n_shift), avg_latinx[::n_shift])

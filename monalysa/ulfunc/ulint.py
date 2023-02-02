@@ -75,7 +75,7 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
                                    np.isnan(intsig)]), axis=0)), "Use signal must be a binary signal."
     
     n_win = int(windur / sample_t)
-    n_shift = int(windur / sample_t)
+    n_shift = int(winshift / sample_t)
     _avgint = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=intsig)
     _avguse = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=usesig)
     _avgintuse = np.array([_ai / _au if _au > 0
