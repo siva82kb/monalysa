@@ -136,7 +136,7 @@ def from_gmac(ax, ay, az, freq):
     pitch_threshold = 30  # Leuenberger et al. 2017
     counts_threshold = 5
     _uluse = [1 if np.abs(pitch) < pitch_threshold and count > counts_threshold else 0 for pitch, count in
-            zip(pitch_hat, amag)]
+            zip(pitch_hat[0:len(pitch_hat):freq], amag)]
     return (np.arange(len(_uluse)), _uluse)
 
 
