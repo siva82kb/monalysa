@@ -85,14 +85,14 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     return (np.arange(len(_uluse)), _uluse)
 
 
-def from_gmac(ax, ay, az, freq):
+def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq):
     """
     Computes UL use using the GMAC algorithm with pitch and counts estimated only from acceleration.
     Args:
-        ax (np.array): 1D numpy array containing acceleration along the length of the forearm
-        ay (np.array): 1D numpy array containing acceleration along another axis
-        az (np.array): 1D numpy array containing acceleration along another axis
-        freq (int): frequency of acceleration data
+        acc_forearm (np.array):  1D numpy array containing acceleration along the length of the forearm.
+        acc_ortho1 (np.array): 1D numpy array containing acceleration along one of the orthogonal axis to the forearm.
+        acc_ortho2 (np.array): 1D numpy array containing acceleration along the other orthogonal axis to the forearm.
+        sampfreq (int): Sampling frequency of acceleration data.
 
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D
@@ -101,32 +101,32 @@ def from_gmac(ax, ay, az, freq):
         signal indicating the presence or absence of a "functional"
         movement any time instant.
     """
-    assert len(ax) == len(ay), "ax, ay and az must be of equal length"
-    assert len(ay) == len(az), "ax, ay and az must be of equal length"
-    assert freq > 0, "freq must be a positive integer"
+    assert len(acc_forearm) == len(acc_ortho1), "acc_forearm, acc_ortho1 and acc_ortho2 must be of equal length"
+    assert len(acc_ortho1) == len(acc_ortho2), "acc_forearm, acc_ortho1 and acc_ortho2 must be of equal length"
+    assert sampfreq > 0, "sampfreq must be a positive integer"
 
     # 1 second moving average filter
-    w = freq
-    ax = np.append(np.ones(w - 1) * ax[0], ax)  # padded at the beginning with the first value
-    ax = np.convolve(ax, np.ones(w), 'valid') / w
+    w = sampfreq
+    acc_forearm = np.append(np.ones(w - 1) * acc_forearm[0], acc_forearm)  # padded at the beginning with the first value
+    acc_forearm = np.convolve(acc_forearm, np.ones(w), 'valid') / w
 
-    ax[ax < -1] = -1
-    ax[ax > 1] = 1
-    pitch_hat = -np.rad2deg(np.arccos(ax)) + 90
+    acc_forearm[acc_forearm < -1] = -1
+    acc_forearm[acc_forearm > 1] = 1
+    pitch_hat = -np.rad2deg(np.arccos(acc_forearm)) + 90
 
     hpf_cutoff = 1  # 1Hz high pass filter
-    b, a = signal.butter(2, hpf_cutoff / (2 * freq), 'high')
-    ax_filt = signal.filtfilt(b, a, ax)
-    ay_filt = signal.filtfilt(b, a, ay)
-    az_filt = signal.filtfilt(b, a, az)
+    b, a = signal.butter(2, hpf_cutoff / (2 * sampfreq), 'high')
+    acc_forearm_filt = signal.filtfilt(b, a, acc_forearm)
+    acc_ortho1_filt = signal.filtfilt(b, a, acc_ortho1)
+    acc_ortho2_filt = signal.filtfilt(b, a, acc_ortho2)
 
     deadband_threshold = 0.068  # Brond et al. 2017
-    ax_filt[np.abs(ax_filt) < deadband_threshold] = 0
-    ay_filt[np.abs(ay_filt) < deadband_threshold] = 0
-    az_filt[np.abs(az_filt) < deadband_threshold] = 0
+    acc_forearm_filt[np.abs(acc_forearm_filt) < deadband_threshold] = 0
+    acc_ortho1_filt[np.abs(acc_ortho1_filt) < deadband_threshold] = 0
+    acc_ortho2_filt[np.abs(acc_ortho2_filt) < deadband_threshold] = 0
 
-    amag = [np.linalg.norm(x) for x in np.column_stack((ax_filt, ay_filt, az_filt))]
-    amag = [sum(amag[i:i + freq]) for i in range(0, len(amag), freq)]
+    amag = [np.linalg.norm(x) for x in np.column_stack((acc_forearm_filt, acc_ortho1_filt, acc_ortho2_filt))]
+    amag = [sum(amag[i:i + sampfreq]) for i in range(0, len(amag), sampfreq)]
 
     # moving average filter
     w = 5  # Bailey et al. 2014
@@ -135,8 +135,10 @@ def from_gmac(ax, ay, az, freq):
 
     pitch_threshold = 30  # Leuenberger et al. 2017
     counts_threshold = 5
-    _uluse = [1 if np.abs(pitch) < pitch_threshold and count > counts_threshold else 0 for pitch, count in
-            zip(pitch_hat[0:len(pitch_hat):freq], amag)]
+    _uluse = [
+        1 if np.abs(pitch) < pitch_threshold and count > counts_threshold else 0
+        for pitch, count in zip(pitch_hat[0:len(pitch_hat):sampfreq], amag)
+    ]
     return (np.arange(len(_uluse)), _uluse)
 
 
