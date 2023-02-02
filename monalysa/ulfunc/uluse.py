@@ -85,7 +85,7 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     return (np.arange(len(_uluse)), _uluse)
 
 
-def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq):
+def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30, counts_threshold=0):
     """
     Computes UL use using the GMAC algorithm with pitch and counts estimated only from acceleration.
     Args:
@@ -93,6 +93,8 @@ def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq):
         acc_ortho1 (np.array): 1D numpy array containing acceleration along one of the orthogonal axis to the forearm.
         acc_ortho2 (np.array): 1D numpy array containing acceleration along the other orthogonal axis to the forearm.
         sampfreq (int): Sampling frequency of acceleration data.
+        pitch_threshold (int): Pitch between +/- pitch_threshold are considered functional, default=30 (Leuenberger et al. 2017).
+        counts_threshold (int): Counts greater than counts_threshold are considered functional, default=0 (optimized for youden index).
 
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D
@@ -132,12 +134,8 @@ def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq):
     amag = np.append(np.ones(window - 1) * amag[0], amag)
     amag = np.convolve(amag, np.ones(window), 'valid') / window
 
-    pitch_threshold = 30  # Leuenberger et al. 2017
-    counts_threshold = 5
-    _uluse = [
-        1 if np.abs(pitch) < pitch_threshold and count > counts_threshold else 0
-        for pitch, count in zip(pitch_hat[0:len(pitch_hat):sampfreq], amag)
-    ]
+    _uluse = [1 if np.abs(pitch) < pitch_threshold and count > counts_threshold else 0
+                for pitch, count in zip(pitch_hat[0:len(pitch_hat):sampfreq], amag)]
     return (np.arange(len(_uluse)), _uluse)
 
 
