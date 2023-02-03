@@ -85,7 +85,7 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     return (np.arange(len(_uluse)), _uluse)
 
 
-def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30, counts_threshold=0):
+def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30, counts_threshold=0, start_index=0):
     """
     Computes UL use using the GMAC algorithm with pitch and counts estimated only from acceleration.
     Args:
@@ -95,6 +95,7 @@ def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30,
         sampfreq (int): Sampling frequency of acceleration data.
         pitch_threshold (int): Pitch between +/- pitch_threshold are considered functional, default=30 (Leuenberger et al. 2017).
         counts_threshold (int): Counts greater than counts_threshold are considered functional, default=0 (optimized for youden index).
+        start_index (int): Index from which use is computed, values before start_index are not considered, default=0.
 
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D
@@ -106,6 +107,13 @@ def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30,
     assert len(acc_forearm) == len(acc_ortho1), "acc_forearm, acc_ortho1 and acc_ortho2 must be of equal length"
     assert len(acc_ortho1) == len(acc_ortho2), "acc_forearm, acc_ortho1 and acc_ortho2 must be of equal length"
     assert sampfreq > 0, "sampfreq must be a positive integer"
+    assert pitch_threshold > 0, "pitch_threshold must be a positive integer"
+    assert counts_threshold >= 0, "counts_threshold cannot be negative"
+    assert start_index >= 0, "start_index cannot be negative"
+
+    acc_forearm = acc_forearm[start_index:]
+    acc_ortho1 = acc_ortho1[start_index:]
+    acc_ortho2 = acc_ortho2[start_index:]
 
     # 1 second moving average filter
     acc_forearm = np.append(np.ones(sampfreq - 1) * acc_forearm[0], acc_forearm)  # padded at the beginning with the first value
@@ -163,6 +171,6 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
 
     n_win = int(windur / sample_t)
-    n_shift = int(winshift / sample_t)
+    n_shift = int(windur / sample_t)
     avguse = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=usesig)
     return (np.arange(0, len(usesig), n_shift), avguse[::n_shift])
