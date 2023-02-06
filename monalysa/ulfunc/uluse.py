@@ -124,10 +124,10 @@ def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30,
     pitch_hat = -np.rad2deg(np.arccos(acc_forearm)) + 90
 
     hpf_cutoff = 1  # 1Hz high pass filter
-    b, a = signal.butter(2, hpf_cutoff / (2 * sampfreq), 'high')
-    acc_forearm_filt = signal.filtfilt(b, a, acc_forearm)
-    acc_ortho1_filt = signal.filtfilt(b, a, acc_ortho1)
-    acc_ortho2_filt = signal.filtfilt(b, a, acc_ortho2)
+    sos = signal.butter(2, hpf_cutoff / (2 * sampfreq), 'high', analog='sos')
+    acc_forearm_filt = signal.sosfilt(sos, acc_forearm)
+    acc_ortho1_filt = signal.sosfilt(sos, acc_ortho1)
+    acc_ortho2_filt = signal.sosfilt(sos, acc_ortho2)
 
     deadband_threshold = 0.068  # Brond et al. 2017
     acc_forearm_filt[np.abs(acc_forearm_filt) < deadband_threshold] = 0
