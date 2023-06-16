@@ -1,14 +1,13 @@
 """
-UL Use Module
--------------
-    ``uluse.py`` is a module containing different classes, and functions for quanitfying
-    the UL use construct - instantaneous and average use. 
+``uluse.py`` is a module containing different classes, and functions for quanitfying
+the UL use construct - instantaneous and average use. 
 
-    The current version of the module contains the following instantaneous UL use algorithms:
+The current version of the module contains the following instantaneous UL use algorithms:
 
-    1. Vector magnitude from the Actigraph sensor (with and without hysterisis)
-    2. GMAC (Gross Movement + Activity Countys)
+1. Vector magnitude from the Actigraph sensor (with and without hysterisis)
+2. GMAC (Gross Movement + Activity Countys)
 
+----
 """
 
 import numpy as np
