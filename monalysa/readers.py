@@ -58,7 +58,7 @@ class ActiGraphData(object):
     
     @property
     def id(self):
-        return self._devid
+        return self._id
     
     @property
     def head_str(self):

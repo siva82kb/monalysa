@@ -1,10 +1,11 @@
 """
-ulint.py is a module containing different class, and functions for quanitfying
-the UL intensity construct.
+``ulint.py`` is a module containing different classes, and functions for quanitfying the UL intensity construct.
 
-Author: Sivakumar Balasubramanian
-Date: 17 Oct 2022
-Email: siva82kb@gmail.com 
+The current version of the module contains the following instantaneous UL intensity algorithms:
+
+1. Vector magnitude from the `ActiGraph <https://theactigraph.com/>`_ sensor.
+
+----
 """
 
 import numpy as np

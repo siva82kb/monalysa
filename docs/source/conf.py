@@ -18,7 +18,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Monalysa'
-copyright = '2022, Sivakumar Balasubramanian'
+copyright = '2023, Sivakumar Balasubramanian'
 author = 'Sivakumar Balasubramanian'
 
 # The full version, including alpha/beta/rc tags

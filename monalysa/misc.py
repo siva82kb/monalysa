@@ -2,23 +2,20 @@
 misc.py is a module containing a set of additional useful functions for use by 
 other modules in monalysa.
 
-Author: Sivakumar Balasubramanian
-Email: siva82kb@gmail.com
-Date: 25 Oct 2022 
 """
 
 from typing import Union
 import numpy as np
 
 
-def is_integer_num(n: Union[int, float]) -> bool:
+def is_integer_num(num: Union[int, float]) -> bool:
     """Checks if the given number is an integer.
 
     Parameters
     ----------
-    n : Union[int, float]
-        The number that is to be checked if it is an
-        integer.
+    num : Union[int, float]
+          The number that is to be checked if it is an
+          integer.
 
     Returns
     -------
@@ -26,10 +23,10 @@ def is_integer_num(n: Union[int, float]) -> bool:
         Bool indicating if the number is an integer. True if n is an
         integer, else its False
     """
-    if isinstance(n, int):
+    if isinstance(num, int):
         return True
-    if isinstance(n, float):
-        return n.is_integer()
+    if isinstance(num, float):
+        return num.is_integer()
     return False
 
 

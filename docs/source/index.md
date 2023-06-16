@@ -6,7 +6,7 @@
 ```{warning} 
 [{sub-ref}`today`] This library is under development.
 ```
-    
+
 ```{include} ../../README.md
 :relative-images:
  ```
@@ -18,9 +18,12 @@ To know more about the installation of Monalysa, visit {doc}`install`
 
 ```{toctree}
 :caption: 'Contents:'
-:maxdepth: 2
+:maxdepth: 1
 
 install
-notebooks/tutorial
+api
+preprocess
+quality
+ulfunc
 contributors
 ```

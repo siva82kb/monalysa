@@ -1,10 +1,14 @@
 """
-uluse.py is a module containing different class, and functions for quanitfying
-the UL use construct.
+UL Use Module
+-------------
+    ``uluse.py`` is a module containing different classes, and functions for quanitfying
+    the UL use construct - instantaneous and average use. 
 
-Author: Sivakumar Balasubramanian
-Date: 17 Oct 2022
-Email: siva82kb@gmail.com 
+    The current version of the module contains the following instantaneous UL use algorithms:
+
+    1. Vector magnitude from the Actigraph sensor (with and without hysterisis)
+    2. GMAC (Gross Movement + Activity Countys)
+
 """
 
 import numpy as np
@@ -85,9 +89,12 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     return (np.arange(len(_uluse)), _uluse)
 
 
-def from_gmac(acc_forearm, acc_ortho1, acc_ortho2, sampfreq, pitch_threshold=30, counts_threshold=0):
+def from_gmac(acc_forearm: np.array, acc_ortho1: np.array, acc_ortho2: np.array,
+              sampfreq: int, pitch_threshold: int=30,
+              counts_threshold: int=0) -> tuple[np.array, np.array]:
     """
     Computes UL use using the GMAC algorithm with pitch and counts estimated only from acceleration.
+    
     Args:
         acc_forearm (np.array):  1D numpy array containing acceleration along the length of the forearm.
         acc_ortho1 (np.array): 1D numpy array containing acceleration along one of the orthogonal axis to the forearm.
