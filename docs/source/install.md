@@ -9,5 +9,8 @@ Monalysa is availabe through PyPI and can be easily installed using the followin
 ## Dependencies 
 Monalysa relies on the following dependencies:
 
-    - Python^3.9
-    - ...
+    - Python 3.9
+    - numpy
+    - scipy
+    - pandas
+    - matplotlib

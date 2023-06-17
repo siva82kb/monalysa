@@ -25,5 +25,7 @@ api
 preprocess
 quality
 ulfunc
+readers
+misc
 contributors
 ```

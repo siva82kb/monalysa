@@ -12,6 +12,7 @@ This pacakge contains the following modules, each of which implements functions 
 uluse
 ulint
 ulmeasures
+ulvisual
 ```
 
 ## [UL Use](uluse)
@@ -45,3 +46,6 @@ Module for quantifying different UL functioning measures. This module has the fo
 | `Rq` | Computes the relative UL use. |
 | `instantaneous_latindex` | Computes the instantaneous laterality index. |
 | `average_latindex` | Computes the average laterality index. |
+
+## [UL Visualizations](ulvisual)
+Module for visualization of various UL functioning constructs.

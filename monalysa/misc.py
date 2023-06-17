@@ -1,7 +1,7 @@
 """
-misc.py is a module containing a set of additional useful functions for use by 
-other modules in monalysa.
+misc.py is a module containing a set of useful functions monalysa library.
 
+----
 """
 
 from typing import Union

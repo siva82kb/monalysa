@@ -1,6 +1,12 @@
 """
-readers.py is a module with classes and functions to read data from different
-wearable sensors that are commonly used for movement tracking applications.
+``readers.py`` is a module for reading data from different wearable sensors 
+that are commonly used for movement tracking applications.
+
+The current version supports the following sensor types:
+
+1. `ActiGraph <https://theactigraph.com/>`_ sensor.
+
+----
 """
 
 import pandas
