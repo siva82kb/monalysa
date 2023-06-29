@@ -12,7 +12,7 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../monalysa'))
+sys.path.insert(0, os.path.abspath('..'))
 import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
@@ -22,7 +22,7 @@ copyright = '2023, Sivakumar Balasubramanian'
 author = 'Sivakumar Balasubramanian'
 
 # The full version, including alpha/beta/rc tags
-release = '' 
+release = ''
 
 
 # -- General configuration ---------------------------------------------------

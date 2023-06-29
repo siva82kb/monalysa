@@ -4,6 +4,9 @@ formats: all
 
 sphinx:
   configuration: docs/source/conf.py
+  builder: html
+  fail_on_warning: false
+
 
 python:
   install:
