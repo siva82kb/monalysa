@@ -10,7 +10,6 @@ sphinx:
 
 python:
   install:
-    - method: pip
     - requirements: docs/requirements.txt
 
 build:
