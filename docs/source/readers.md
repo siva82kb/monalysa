@@ -1,5 +1,5 @@
 
-# Reader
+# Readers
 
 ```{eval-rst} 
 .. automodule:: monalysa.readers
