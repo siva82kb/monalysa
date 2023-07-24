@@ -13,9 +13,11 @@
 ## Contributors
 The details of the list of current contributors to the project can be found in the % {doc}`contributors` pages.
 
-To know more about the installation of Monalysa, visit % {doc}`install`
+To know more about the installation of Monalysa, visit {doc}`install`
 
 ```{toctree}
 :caption: 'Contents:'
 :maxdepth: 1
+
+install
 ```
