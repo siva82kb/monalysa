@@ -3,15 +3,19 @@
 % You can adapt this file completely to your liking, but it should at least
 % contain the root `toctree` directive.
 
-# Welcome to Monalysa's documentation!
+```{warning} 
+[{sub-ref}`today`] This library is under development.
+```
+
+```{include} ../../README.md
+:relative-images:
+ ```
+## Contributors
+The details of the list of current contributors to the project can be found in the % {doc}`contributors` pages.
+
+To know more about the installation of Monalysa, visit % {doc}`install`
 
 ```{toctree}
 :caption: 'Contents:'
-:maxdepth: 2
+:maxdepth: 1
 ```
-
-# Indices and tables
-
-- {ref}`genindex`
-- {ref}`modindex`
-- {ref}`search`
