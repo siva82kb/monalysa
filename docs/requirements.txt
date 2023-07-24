@@ -1,0 +1,4 @@
+furo==2022.9.29
+myst-parser==0.17.2
+nbsphinx==0.8.9
+jinja2==3.0.3
