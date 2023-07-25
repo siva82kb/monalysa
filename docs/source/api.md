@@ -7,8 +7,8 @@ The following is the current list of packages and modules in monalysa.
 | Name | Description |
 |:-----|:------------|
 | {doc}`preprocess` | For precprocessing movement data. |
-<!-- | {doc}`quality` | Quantifying differnet movement quality measures. |
-| {doc}`ulfunc` | Quanitfying UL functioning from wearable sensros. | -->
+| {doc}`quality` | Quantifying differnet movement quality measures. | 
+<!-- | {doc}`ulfunc` | Quanitfying UL functioning from wearable sensros. | -->
 
 <!-- ## Modules
 | Name | Description |
