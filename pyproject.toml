@@ -20,5 +20,6 @@ build-backend = "poetry.core.masonry`.api"
 docs = [
     "sphinx=5.0.2,
     "myst-parser",
-    "furo"
+    "furo",
+    "nbsphinx"
 ]
