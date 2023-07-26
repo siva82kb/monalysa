@@ -1,10 +1,11 @@
 """
-ulint.py is a module containing different class, and functions for quanitfying
-the UL intensity construct.
+``ulint.py`` is a module containing different classes, and functions for quanitfying the UL intensity construct.
 
-Author: Sivakumar Balasubramanian
-Date: 17 Oct 2022
-Email: siva82kb@gmail.com 
+The current version of the module contains the following instantaneous UL intensity algorithms:
+
+1. Vector magnitude from the `ActiGraph <https://theactigraph.com/>`_ sensor.
+
+----
 """
 
 import numpy as np
@@ -63,7 +64,9 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
     Returns
     -------
     tuple[np.array, np.array]
-        A tuple of 1D numpy arrays. The first 1D  array is the list of time indices of the computed avarge UL intensity of use signal. The second ID array is the average UL intensity of use signal.
+        A tuple of 1D numpy arrays. The first 1D  array is the list of time
+        indices of the computed avarge UL intensity of use signal. The second
+        ID array is the average UL intensity of use signal.
     """
     
     assert np.shape(intsig) == np.shape(usesig), "intsig and usesig must have the same shape."

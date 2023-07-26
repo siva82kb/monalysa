@@ -1,6 +1,7 @@
 """
-ulfunc.py contains functions and classes for implementing different measures
-for quantifying upper-limb functioning. 
+``ulfunc.py`` contains functions and classes for implementing different measures for quantifying upper-limb functioning. 
+
+----
 """
 
 from scipy import signal
@@ -8,73 +9,72 @@ from scipy import signal
 import numpy as np
 
 
-class ULUse(object):
-    """Class implementing different UL use measures as static functions.
-    """
-    @staticmethod
-    def from_activity_counts1(actcounts: np.array,
-                              threshold: float) -> np.array:
-        """A single threshold based algorithm for computing UL use
-        from activity counts.
+# class ULUse(object):
+#     """Class implementing different UL use measures as static functions.
+#     """
+#     @staticmethod
+#     def from_activity_counts1(actcounts: np.array,
+#                               threshold: float) -> np.array:
+#         """A single threshold based algorithm for computing UL use
+#         from activity counts.
 
-        Args:
-            actcounts (np.array): 1D numpy array containing the activity counts
-            time series.
-            threshold (float): Threshold for generating the binary UL use
-            output time series.
+#         Args:
+#             actcounts (np.array): 1D numpy array containing the activity counts
+#             time series.
+#             threshold (float): Threshold for generating the binary UL use
+#             output time series.
 
-        Returns:
-            np.array: 1D numpy array of the UL use signal, which is a binary
-            signal indicating the presence or absence of a "functional"
-            movement any time instant.
-        """
-        assert len(actcounts) > 0, "actcounts cannot be a of zero length."
-        assert min(actcounts) >= 0., "Activity count cannot be negative."
+#         Returns:
+#             np.array: 1D numpy array of the UL use signal, which is a binary
+#             signal indicating the presence or absence of a "functional"
+#             movement any time instant.
+#         """
+#         assert len(actcounts) > 0, "actcounts cannot be a of zero length."
+#         assert min(actcounts) >= 0., "Activity count cannot be negative."
         
-        return  1.0 * np.array(np.array(actcounts) >= threshold)
+#         return  1.0 * np.array(np.array(actcounts) >= threshold)
     
-    @staticmethod
-    def from_activity_counts2(actcounts: np.array,
-                              threshold0: float,
-                              threshold1: float) -> np.array:
-        """A hysteresis based based algorithm for computing UL use
-        from activity counts.
-        Note: Since this method requires information about the past value of
-        UL use, you must ensure that the activtiy counts input is from a
-        continuous time segment.  
+#     @staticmethod
+#     def from_activity_counts2(actcounts: np.array,
+#                               threshold0: float,
+#                               threshold1: float) -> np.array:
+#         """A hysteresis based based algorithm for computing UL use
+#         from activity counts.
+#         Note: Since this method requires information about the past value of
+#         UL use, you must ensure that the activtiy counts input is from a
+#         continuous time segment.  
 
-        Args:
-            actcounts (np.array): 1D numpy array containing the activity counts
-            time series.
-            threshold0 (float): Threshold below which UL use signal is 0.
-            threshold1 (float): Threshold above which UL use signal is 1.
+#         Args:
+#             actcounts (np.array): 1D numpy array containing the activity counts
+#             time series.
+#             threshold0 (float): Threshold below which UL use signal is 0.
+#             threshold1 (float): Threshold above which UL use signal is 1.
 
-        Returns:
-            np.array: 1D numpy array of the UL use signal, which is a binary
-            signal indicating the presence or absence of a "functional"
-            movement any time instant.
-        """
-        assert len(actcounts) > 0, "actcounts cannot be a of zero length."
-        assert min(actcounts) >= 0., "Activity count cannot be negative."
-        assert threshold0 <= threshold1, "threshold0 must be smaller than threshold1."
+#         Returns:
+#             np.array: 1D numpy array of the UL use signal, which is a binary
+#             signal indicating the presence or absence of a "functional"
+#             movement any time instant.
+#         """
+#         assert len(actcounts) > 0, "actcounts cannot be a of zero length."
+#         assert min(actcounts) >= 0., "Activity count cannot be negative."
+#         assert threshold0 <= threshold1, "threshold0 must be smaller than threshold1."
         
-        if threshold0 == threshold1:
-            print("Both thresholds are the same. Using from_activity_counts1 function to compute UL use.")
-            return ULUse.from_activity_counts1(actcounts, threshold0)
+#         if threshold0 == threshold1:
+#             print("Both thresholds are the same. Using from_activity_counts1 function to compute UL use.")
+#             return ULUse.from_activity_counts1(actcounts, threshold0)
 
-        _uluse = np.zeros(len(actcounts))
-        _uluse[actcounts >= threshold1] = 1
+#         _uluse = np.zeros(len(actcounts))
+#         _uluse[actcounts >= threshold1] = 1
         
-        # Indices in the intermediate region where the activity count is
-        # less than threshold1 but greater than threshold0.
-        _temp = np.where((actcounts >= threshold0)
-                         * (actcounts < threshold1))[0]
-        # Check if the very first point is in the intermediate region.
-        for i in _temp:
-            _uluse[i] = _uluse[i-1] if i > 0  else 0
+#         # Indices in the intermediate region where the activity count is
+#         # less than threshold1 but greater than threshold0.
+#         _temp = np.where((actcounts >= threshold0)
+#                          * (actcounts < threshold1))[0]
+#         # Check if the very first point is in the intermediate region.
+#         for i in _temp:
+#             _uluse[i] = _uluse[i-1] if i > 0  else 0
         
-        return _uluse
-
+#         return _uluse
 
 # def average_uluse(uluse: np.array, dur: float, sample_t: float) -> np.array:
 #     """Computes the average upper-limb use from the given UL use signal. The
@@ -161,7 +161,7 @@ def average_ulactivity(intsig: np.array, windur: float, winshift: float,
 
 
 def Hq(aua: np.array, q: float) -> float:
-    """Computes the over  upper-limb activity using the average upper-limb
+    """Computes the overall upper-limb activity using the average upper-limb
     activity time series.
 
     Args:
