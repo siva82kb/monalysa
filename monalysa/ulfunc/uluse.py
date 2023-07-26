@@ -151,10 +151,8 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     current version only supports causal averaging.
 
     Args:
-        usesig (np.array): 1D numpy array of the UL use (binary) signal whose
-        average is to be computed.
-        windur (float): Duration in seconds over which the UL use signal is to
-        be averaged.
+        usesig (np.array): 1D numpy array of the UL use (binary) signal whose average is to be computed.
+        windur (float): Duration in seconds over which the UL use signal is to be averaged.
         winshift (float): Time shift between two consecutive averaging windows.
         sample_t (float): Sampling time of the usesig signal.
 

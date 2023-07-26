@@ -106,7 +106,7 @@ def dimensionless_jerk_factors(movement, fs, data_type: str='vel',
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only three possibiliies,
+                  scaling factor to be used. There are only two possibiliies,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
@@ -196,7 +196,7 @@ def dimensionless_jerk(movement: np.array, fs: float, data_type: str='vel',
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only three possibiliies,
+                  scaling factor to be used. There are only two possibiliies,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
@@ -251,7 +251,7 @@ def log_dimensionless_jerk_factors(movement: np.array, fs: float,
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only three possibiliies,
+                  scaling factor to be used. There are only two possibiliies,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
@@ -296,7 +296,7 @@ def log_dimensionless_jerk(movement: np.array, fs: float, data_type: str='vel',
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only three possibiliies,
+                  scaling factor to be used. There are only two possibiliies,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
