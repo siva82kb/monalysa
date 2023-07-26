@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "monalysa"
-version = "0.0.15"
+version = "0.0.16"
 description = "A unified library for carrying out quantitative movement analysis."
 authors = ["Sivakumar Balasubramanian (Siva) <siva82kb@gmail.com>"]
 readme = "README.md"

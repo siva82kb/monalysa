@@ -27,6 +27,6 @@ ulfunc
 readers
 movements
 misc
-notebooks/tutorial.ipynb
+tutorial
 contributors
 ```

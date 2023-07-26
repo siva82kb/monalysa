@@ -159,7 +159,7 @@ def dimensionless_jerk_factors(movement, fs, data_type: str='vel',
     # sampling time.
     dt = 1. / fs
 
-    # Remove the mean if the movement dat is acceleration?
+    # Remove the mean if the movement data is acceleration?
     if data_type == 'accl' and rem_mean is True:
         movement = movement - np.mean(movement, axis=0)
 
