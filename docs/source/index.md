@@ -23,6 +23,10 @@ install
 api
 preprocess
 quality
+ulfunc
+readers
+movements
+misc
 notebooks/tutorial.ipynb
 contributors
 ```
