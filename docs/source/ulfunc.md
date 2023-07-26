@@ -3,7 +3,7 @@
 
 The `ulfunc` package contains modules for quantifying the different constructs of UL functioning from wearable sensors. 
 
-This pacakge contains the following modules, each of which implements functions for quantifying differnt constructs of UL functioning.
+This pacakge contains the following modules, each of which implements functions for quantifying different constructs of UL functioning.
 
 ```{toctree}
 :caption: 'Contents:'
@@ -27,8 +27,8 @@ Module for quantifying instantaneous and average UL use. This module has the fol
 | `average_uluse` | Compute average UL use.|
 
 ## [UL Intensity](ulint)
-Module for quantifying instantaneous and avearge UL intensity of use. This module has the following classes and function:
-|
+Module for quantifying instantaneous and average UL intensity of use. This module has the following classes and function:
+
 ### Functions
 | Name | Description |
 |:-----|:------------|
@@ -41,7 +41,7 @@ Module for quantifying different UL functioning measures. This module has the fo
 ### Functions
 | Name | Description |
 |:-----|:------------|
-| `average_ulactivity` | Compute average UL activity from instanenous intensity of use. |
+| `average_ulactivity` | Compute average UL activity from instantaneous intensity of use. |
 | `Hq` | Computes the overall UL activity fron the average UL activity. |
 | `Rq` | Computes the relative UL use. |
 | `instantaneous_latindex` | Computes the instantaneous laterality index. |

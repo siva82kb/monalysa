@@ -105,7 +105,7 @@ def from_gmac(acc_forearm: np.array, acc_ortho1: np.array, acc_ortho2: np.array,
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D
         array is the list of time indices of the computed UL use signal. The
-        second ID array is the UL use signal, which is a binary
+        second 1D array is the UL use signal, which is a binary
         signal indicating the presence or absence of a "functional"
         movement any time instant.
     """
@@ -158,10 +158,10 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
 
     Returns:
         tuple[np.array, np.array]: A tuple of 1D numpy arrays. The first 1D 
-        array is the list of time indices of the computed avarge UL use signal. 
-        The second ID array is the avarage UL use use signal.
+        array is the list of time indices of the computed average UL use signal. 
+        The second 1D array is the average UL use use signal.
     """
-    assert windur > 0, "windur (avaraging window duration) must be a positive number."
+    assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
     assert sample_t > 0, "sample_t (sampling time) must be a positive number."
     assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
