@@ -13,7 +13,9 @@ import pandas
 from pandas import DataFrame
 from pandas import Timestamp, Timedelta
 from datetime import datetime as dt
+from datetime import timedelta as td
 import datetime
+import re
 
 
 class ActiGraphData(object):
@@ -21,16 +23,42 @@ class ActiGraphData(object):
     """
     
     @staticmethod
-    def read_organize_data(filename, header=10):
+    def shorten_name(name: str) -> str:
+        """Shorten the name of the data columns.
+        """
+        # Short names
+        short_names = {
+            "Accelerometer X": "AcclX",
+            "Accelerometer Y": "AcclY",
+            "Accelerometer Z": "AcclZ",
+        }
+        return short_names[name] if name in short_names else name
+    
+    @staticmethod
+    def read_organize_data(filename, header=10, header_details=None) -> DataFrame:
         """Function to read CSV ActiGraph data file.
         """
         _data = pandas.read_csv(filename, header=header, sep=",")
         _data.columns = [_c.strip() for _c in _data.columns]
-        # Add a datetime columns
-        _data['TimeStamp'] = _data["Date"] + _data['Time']
-        _data['TimeStamp'] = _data['TimeStamp'].map(lambda x: dt.strptime(x, "%d/%m/%Y%H:%M:%S"))
-        _data['Date'] = _data['TimeStamp'].map(lambda x: x.date())
-        _data['Time'] = _data['TimeStamp'].map(lambda x: x.time())
+        
+        # Check if date and time columns
+        if "Date" not in _data.columns or "Time" not in _data.columns:
+            try:
+                deltat = td(seconds=1/header_details['fsamp'])
+                _data["TimeStamp"] = header_details['startdatetime'] + _data.index * deltat
+            except TypeError:
+                print("No sampling frequency information found in the header. Cannot set the timestamp.")
+        else:
+            # Add a datetime columns
+            _data['TimeStamp'] = _data["Date"] + _data['Time']
+            _data['TimeStamp'] = _data['TimeStamp'].map(lambda x: dt.strptime(x, "%d/%m/%Y%H:%M:%S"))
+            _data['Date'] = _data['TimeStamp'].map(lambda x: x.date())
+            _data['Time'] = _data['TimeStamp'].map(lambda x: x.time())
+        
+        # Get shortened names for the columns
+        _data.rename({_c: ActiGraphData.shorten_name(_c) for _c in _data.columns},
+                     inplace=True, axis=1)
+
         return _data
     
     def __init__(self, filename: str, devid: str):
@@ -51,12 +79,20 @@ class ActiGraphData(object):
             self._head_str = [fh.readline() for _ in range(9)]
         self._head_str[0] = " ".join(self._head_str[0].split(" ")[1:-1])
         
+        # Header details.
+        self._hdetails = self._get_header_details(self._head_str)
+        
         # Read and organize csv data.
-        self._data = ActiGraphData.read_organize_data(self._filename,
-                                                      header=10)
+        self._data = ActiGraphData.read_organize_data(self._filename, header=10,
+                                                      header_details=self._hdetails)
         
         # Sampling time of the data.
-        self._samplingtime = self._data['TimeStamp'].diff().mode(dropna=True)[0].total_seconds()
+        if self._hdetails['fsamp'] is not None:
+            self._samplingtime = 1/self._hdetails['fsamp']
+        elif 'TimeStamp' in self._data.columns:
+            self._samplingtime = self._data['TimeStamp'].diff().mode(dropna=True)[0].total_seconds()
+        else:
+            self._samplingtime = None
         
     @property
     def filename(self):
@@ -85,6 +121,42 @@ class ActiGraphData(object):
     @property
     def samplingtime(self):
         return self._samplingtime
+    
+    def _get_header_details(self, header_str: str) -> dict:
+        """Get the details of the file from the doc string.
+
+        Parameters
+        ----------
+        header_str : str
+            Header string read from the CSV file.
+
+        Returns
+        -------
+        dict
+            Dictionary contians the details of the file: Sampling frequency (if available),
+            starting datetime.
+        """
+        _details = {}
+        srch = re.compile(r'^.*\s([0-9]*)\sHz\s.*$')
+        if srch.match(header_str[0]) is not None:
+            _srchout = srch.match(header_str[0]).groups()
+            _details['fsamp'] = int(_srchout[0])
+        else:
+            _details['fsamp'] = None
+        
+        # Find start datetime
+        _strtime = [_str.split()[-1] for _str in header_str if 'Start Time' in _str][0]
+        _strdate = [_str.split()[-1] for _str in header_str if 'Start Date' in _str][0]
+        
+        # Start datetime
+        _details['startdatetime'] = dt.strptime(_strdate + _strtime, "%d/%m/%Y%H:%M:%S")
+
+        return _details
+    
+    def _get_sampling_freq_from_header(self, header_str: str) -> float or None:
+        """Returns the sampling frequency of the data from the header string.
+        """
+        return float(self._head_str[1].split(" ")[-1])
     
     def get_data_between_timestamps(self, start: Timestamp, stop: Timestamp) -> DataFrame:
         """Returns a slice of the data between the given timestamps.
