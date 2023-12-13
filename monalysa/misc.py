@@ -48,3 +48,37 @@ def is_binary_signal(sig: np.array, allownan=False) -> bool:
     _test = [sig == 0, sig == 1]
     _test += [np.isnan(sig).tolist()] if allownan else []
     return np.all(np.any(_test, axis=0))
+
+
+def gram_schmidt_orthogonalize(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Perform the Gram-Schmidt orthogonalization.
+
+    Parameters
+    ----------
+    x : np.ndarray
+        2D array of number corresponding to the x vector. The columns are the 
+        different components, while the rows are different x vectors.
+    y : np.ndarray
+        2D array of number corresponding to the y vector. The columns are the 
+        different components, while the rows are different y vectors.
+
+    Returns
+    -------
+    tuple[np.ndarray, np.ndarray, np.ndarray]
+        Returns the GS orthogonalized (x_normn, y_norm) vectors, with the rows corresponding 
+        to the different orthogonalized vectors, and the columsn corresponding 
+        to the different components.
+        The norm of the rows of x_norm and y_norm will 1. The dot product of 
+        the rows of the x_norm nad y_norm will be 0.
+    """
+    assert type(x) == np.ndarray, "x must be an numpy ndarray."
+    assert type(y) == np.ndarray, "x must be an numpy ndarray."
+    assert len(x.shape) == 2, "x must be anb 2D numpy array."
+    assert len(y.shape) == 2, "x must be anb 2D numpy array."
+    assert x.shape == y.shape, "x and y must have the same shape"
+    
+    _xn = x / np.linalg.norm(x, axis=1, keepdims=True)
+    _yx = np.sum(y * _xn, axis=1, keepdims=True)
+    _dy = y - _xn * _yx
+    _yn = _dy / np.linalg.norm(_dy, axis=1, keepdims=True)
+    return _xn, _yn
