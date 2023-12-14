@@ -6,6 +6,7 @@ misc.py is a module containing a set of useful functions monalysa library.
 
 from typing import Union
 import numpy as np
+from scipy import signal
 
 
 def is_integer_num(num: Union[int, float]) -> bool:
@@ -82,3 +83,33 @@ def gram_schmidt_orthogonalize(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray
     _dy = y - _xn * _yx
     _yn = _dy / np.linalg.norm(_dy, axis=1, keepdims=True)
     return _xn, _yn
+
+
+def smoothed_derivative(data: np.array, tsamp: float, twin: float) -> np.array:
+    """
+    Compute first derivative for the given data. The derivative is computed using
+    a Savitsky-Golay filter.
+
+    Parameters:
+    data : np.array
+        Data with columns corresponding to different components, and rows 
+        corresponding to sampling instants.
+    tsamp : float
+        Sampling time in seconds.
+    twin : float
+        Window duration for the Savitsky-Golay (SG) filter used for
+        filtering and computing the first derivative of the position data.
+        This is used to determine the window length for the SG filter.
+
+    Returns:
+    deriv : np.array
+        First derivative of the given data.
+    """
+    assert isinstance(data, np.ndarray), 'data must be a numpy array.'
+    assert twin > tsamp, 'twin must be greater than tsamp.'
+
+    # Filter movements
+    _nwin = int(twin / tsamp)
+    _nwin += 1 if _nwin % 2 == 0 else 0
+    return signal.savgol_filter(data, _nwin, 1, deriv=1, delta=tsamp,
+                                mode='mirror', axis=0)

@@ -1,6 +1,6 @@
 
 """
-``smoothness.py`` ism  module contains functions for estimating movement
+``smoothness.py`` is a module contains functions for estimating movement
 smoothness from different types sensors and different measures.
 
 ----
@@ -332,7 +332,7 @@ def log_dimensionless_jerk(movement: np.array, fs: float, data_type: str='vel',
 
 
 def log_dimensionless_jerk_imu_factors(accls: np.array, gyros: np.array,
-                                       grav: np.array, fs: float) -> tuple[float, float, float]:
+                                       fs: float) -> tuple[float, float, float]:
     """
     Returns the individual factors of the log dimensionless jerk metric
     used for IMU data.
@@ -347,9 +347,6 @@ def log_dimensionless_jerk_imu_factors(accls: np.array, gyros: np.array,
             The array containing the gyroscope profile. This is 
             multi-dimensional with the rows corresponding to the time samples
             and the columns corresponding to the x, y, and z components.
-    grav  : np.array
-            Gravity vector. This is a 3x1 array with the x, y, and z component
-            of gravity. 
     fs    : float
             The sampling frequency of the data.
 
@@ -376,30 +373,31 @@ def log_dimensionless_jerk_imu_factors(accls: np.array, gyros: np.array,
     # Movement duration.
     mdur = _N * dt
 
-    # Gravity subtracted mean square ampitude
-    mamp = np.power(np.linalg.norm(accls), 2) / _N
-    if gyros is not None:
-      mamp = mamp - np.power(np.linalg.norm(grav), 2)
-    
+    # Mean subtracted acceleration.
+    accls_ms = accls - np.mean(accls, axis=0)
+    a_peak = np.max(np.linalg.norm(accls_ms, axis=1))
+
     # Derivative of the accelerometer signal
-    _daccls = np.vstack((np.zeros((1, 3)), np.diff(accls, axis=0) * fs)).T
-    
+    _daccls = np.vstack((np.zeros((1, 3)), np.diff(accls, axis=0) * fs))
+
     # Get corrected jerk if gyroscope data is available.
     if gyros is not None:
-      _awcross = np.array([np.cross(_as, _ws)
-                           for _as, _ws in zip(accls, gyros)]).T
+        _awcross = np.array([np.cross(_as, _ws)
+                            for _as, _ws in zip(accls, gyros)]).T
     else:
-      _awcross = np.zeros(np.shape(_daccls))
-    
+        _awcross = np.zeros(np.shape(_daccls))
+
     # Corrected jerk
     _jsc = _daccls - _awcross
-    mjerk = np.sum(np.power(np.linalg.norm(_jsc, axis=0), 2)) * dt
+    mjerk = np.sum(np.power(np.linalg.norm(_jsc, axis=1), 2)) * dt
 
-    return - np.log(mdur), np.log(mamp), - np.log(mjerk)
+    - np.log(mdur) + 2 * np.log(a_peak) - np.log(mjerk)
+
+    return - np.log(mdur), 2 * np.log(a_peak), - np.log(mjerk)
 
 
 def log_dimensionless_jerk_imu(accls: np.array, gyros: np.array,
-                               grav: np.array, fs: float) -> float:
+                               fs: float) -> float:
     """
     Calculates the smoothness metric for the given IMU data, accelerometer
     and gyroscope signals, using the log dimensionless jerk metric.
@@ -414,9 +412,6 @@ def log_dimensionless_jerk_imu(accls: np.array, gyros: np.array,
             The array containing the gyroscope profile. This is 
             multi-dimensional with the rows corresponding to the time samples
             and the columns corresponding to the x, y, and z components.
-    grav  : np.array
-            Gravity vector. This is a 3x1 array with the x, y, and z component
-            of gravity. 
     fs    : float
             The sampling frequency of the data.
 
@@ -435,5 +430,5 @@ def log_dimensionless_jerk_imu(accls: np.array, gyros: np.array,
 
     """
     # Get factors for the LDLJ calculation
-    _f = log_dimensionless_jerk_imu_factors(accls, gyros, grav, fs)
+    _f = log_dimensionless_jerk_imu_factors(accls, gyros, fs)
     return _f[0] + _f[1] + _f[2]
