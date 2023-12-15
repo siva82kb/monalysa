@@ -15,7 +15,8 @@ def get_move_segment_times(vel: np.array, delt: float, speedth: float=0.05,
     """
     Return start and stop indices for different movement segments from velocity data.
 
-    Parameters:
+    Parameters
+    ----------
     vel : np.array
         Velocity data with columns corresponding to different components,
         and rows corresponding to different samples.
@@ -42,7 +43,8 @@ def get_move_segment_times(vel: np.array, delt: float, speedth: float=0.05,
         identifying movement segments. This value should be between 0 and 1. The 
         default value is 0.1.
 
-    Returns:
+    Returns
+    -------
     np.array
         An (Nx2) array with start and stop indices for different movement segments.
         The first column corresponds to start times, and the second column corresponds

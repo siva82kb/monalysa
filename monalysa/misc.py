@@ -15,8 +15,7 @@ def is_integer_num(num: Union[int, float]) -> bool:
     Parameters
     ----------
     num : Union[int, float]
-          The number that is to be checked if it is an
-          integer.
+        The number that is to be checked if it is an integer.
 
     Returns
     -------
@@ -32,14 +31,16 @@ def is_integer_num(num: Union[int, float]) -> bool:
 
 
 def is_binary_signal(sig: np.array, allownan=False) -> bool:
-    """Indicates if the given input signal is a binary signal. Nan values can be allowed.
+    """Indicates if the given input signal is a binary signal. Nan values can
+    be allowed.
 
     Parameters
     ----------
     sig : np.array
         Input signal that is to be checked if it is a binary signal.
     allownan : bool, optional
-        Boolean to include if nans are to be allowed in the  signal when testing it., by default False
+        Boolean to include if nans are to be allowed in the  signal when
+        testing it., by default False
 
     Returns
     -------
@@ -90,7 +91,8 @@ def smoothed_derivative(data: np.array, tsamp: float, twin: float) -> np.array:
     Compute first derivative for the given data. The derivative is computed using
     a Savitsky-Golay filter.
 
-    Parameters:
+    Parameters
+    ----------
     data : np.array
         Data with columns corresponding to different components, and rows 
         corresponding to sampling instants.
@@ -101,10 +103,24 @@ def smoothed_derivative(data: np.array, tsamp: float, twin: float) -> np.array:
         filtering and computing the first derivative of the position data.
         This is used to determine the window length for the SG filter.
 
-    Returns:
-    deriv : np.array
+    Returns
+    -------
+    np.array
         First derivative of the given data.
     """
+    # """Checks if the given number is an integer.
+
+    # Parameters
+    # ----------
+    # num : Union[int, float]
+    #     The number that is to be checked if it is an integer.
+
+    # Returns
+    # -------
+    # bool
+    #     Bool indicating if the number is an integer. True if n is an
+    #     integer, else its False
+    # """
     assert isinstance(data, np.ndarray), 'data must be a numpy array.'
     assert twin > tsamp, 'twin must be greater than tsamp.'
 
