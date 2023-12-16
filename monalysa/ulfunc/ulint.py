@@ -1,5 +1,5 @@
 """
-``ulint.py`` is a module containing different classes, and functions for quanitfying the UL intensity construct.
+``ulint.py`` is a module containing different classes, and functions for quantifying the UL intensity construct.
 
 The current version of the module contains the following instantaneous UL intensity algorithms:
 
@@ -55,7 +55,7 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
     usesig : np.array
         1D numpy array of the UL use (binary) signal.
     windur : float
-        Duration in seconds over which the UL internsity signal is to be averaged.
+        Duration in seconds over which the UL intensity signal is to be averaged.
     winshift : float
         Time gap between two consecutive window locations.
     sample_t : float

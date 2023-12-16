@@ -1,11 +1,11 @@
 """
-``uluse.py`` is a module containing different classes, and functions for quanitfying
+``uluse.py`` is a module containing different classes, and functions for quantifying
 the UL use construct - instantaneous and average use. 
 
 The current version of the module contains the following instantaneous UL use algorithms:
 
 1. Vector magnitude from the Actigraph sensor (with and without hysterisis)
-2. GMAC (Gross Movement + Activity Countys)
+2. GMAC (Gross Movement + Activity Counts)
 
 ----
 """
@@ -50,7 +50,7 @@ def from_vector_magnitude2(vecmag: np.array, threshold0: float,
     """A hysteresis based based algorithm for computing UL use
     from activity counts.
     Note: Since this method requires information about the past value of
-    UL use, you must ensure that the activtiy counts input is from a
+    UL use, you must ensure that the activity counts input is from a
     continuous time segment.  
 
     Parameters
@@ -110,14 +110,14 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
     farm_inx : int
         Index of the forearm component of the acceleration data. Must be an integer between 0 and the number of columns in accl.
     elb_to_farm: bool
-        Indicates if the axis points from the eblow to forearm, or the other way around.
+        Indicates if the axis points from the elbow to forearm, or the other way around.
     nwin : int
         Number of samples to use for moving averaging. Must be a positive integer.
     
     Returns
     -------
     np.array
-        1D numpy array containing the pitch angle of the forearm estiamted from 
+        1D numpy array containing the pitch angle of the forearm estimated from
         the accelerometer data.
     """
     assert len(accl.shape) == 2, "accl must be a 2D numpy array."
@@ -175,7 +175,7 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float, nc: int,
     # Acceleration magnitude    
     amag = np.linalg.norm(accl_filt, axis=1)
     
-    # Return the moving averageed amag
+    # Return the moving averaged amag
     return signal.lfilter(np.ones(n_am) / n_am, 1, amag, axis=0)
 
 
@@ -227,7 +227,7 @@ def from_gmac(accl: np.array, fs: float,
     accl_farm_inx : int
         Index of the forearm component of the acceleration data. Must be an integer between 0 and  and the number of columns in accl.
     elb_to_farm: bool
-        Indicates if the axis points from the eblow to forearm, or the other way around.
+        Indicates if the axis points from the elbow to forearm, or the other way around.
     np : int
         Number of samples to use for moving averaging. Must be a positive integer.
     fc : float
@@ -282,8 +282,8 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     -------
     tuple[np.array, np.array]
         A tuple of 1D numpy arrays. The first 1D array is the list of time 
-        indices of the computed avarge UL use signal. The second ID array is 
-        the avarage UL use use signal.
+        indices of the computed average UL use signal. The second ID array is
+        the average UL use use signal.
     """
     assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."

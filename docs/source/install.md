@@ -1,7 +1,7 @@
 
 # Installing Monalysa 
 
-Monalysa is availabe through PyPI and can be easily installed using the following pip command.
+Monalysa is available through PyPI and can be easily installed using the following pip command.
 ```console
 (.venv) $ pip install monalysa  
 ````

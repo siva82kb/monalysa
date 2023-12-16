@@ -27,7 +27,7 @@ def sparc(movement: np.array, fs: float, padlevel: int = 4,
                The max. cut off frequency for calculating the spectral arc
                length metric. [default = 10.]
     amp_th   : float, optional
-               The amplitude threshold to used for determing the cut off
+               The amplitude threshold to used for determining the cut off
                frequency upto which the spectral arc length is to be estimated.
                [default = 0.05]
 
@@ -106,11 +106,11 @@ def dimensionless_jerk_factors(movement, fs, data_type: str='vel',
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only two possibiliies,
+                  scaling factor to be used. There are only two possibilities,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
-                  removed before comupting the jerk. It must be noted that when
+                  removed before computing the jerk. It must be noted that when
                   the movement data is velocity, this parameter is ignored.
                   This parameter is used only when the movement data is 
                   acceleration or jerk.
@@ -131,7 +131,7 @@ def dimensionless_jerk_factors(movement, fs, data_type: str='vel',
     Examples
     --------
     """
-    # Pamameter definition for different data types
+    # Parameter definition for different data types
     param = {'vel': {'n': 2, 'N': 3},
              'accl': {'n': 1, 'N': 1}}
 
@@ -148,7 +148,7 @@ def dimensionless_jerk_factors(movement, fs, data_type: str='vel',
     r = np.shape(movement)[0]
     if r < 3:
         _str = '\n'.join(
-            ("Data is too short to calcalate jerk! Data must",
+            ("Data is too short to calculate jerk! Data must",
              "have at least 3 samples ({r} given)."))
         raise Exception(_str)
     
@@ -251,11 +251,11 @@ def log_dimensionless_jerk_factors(movement: np.array, fs: float,
                   The sampling frequency of the data.
     data_type   : string
                   The type of movement data provided. This will determine the
-                  scaling factor to be used. There are only two possibiliies,
+                  scaling factor to be used. There are only two possibilities,
                   {'vel', 'accl'}, corresponding to velocity, and acceleration.
     rem_mean    : booleans
                   This indicates if the mean of the given movement data must be
-                  removed before comupting the jerk. It must be noted that when
+                  removed before computing the jerk. It must be noted that when
                   the movement data is velocity, this parameter is ignored.
                   This parameter is used only when the movement data is 
                   acceleration or jerk.

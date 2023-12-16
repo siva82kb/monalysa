@@ -6,9 +6,9 @@ The following is the current list of packages and modules in monalysa.
 ## Packages
 | Name | Description |
 |:-----|:------------|
-| {doc}`preprocess` | For precprocessing movement data. |
-| {doc}`quality` | Quantifying differnet movement quality measures. | 
-| {doc}`ulfunc` | Quanitfying UL functioning from wearable sensros. |
+| {doc}`preprocess` | For preprocessing movement data. |
+| {doc}`quality` | Quantifying different movement quality measures. | 
+| {doc}`ulfunc` | Quantifying UL functioning from wearable sensors. |
 
 ## Modules
 | Name | Description |
@@ -16,4 +16,4 @@ The following is the current list of packages and modules in monalysa.
 | {py:mod}`monalysa.misc` | Miscellaneous functions. |
 | {py:mod}`monalysa.experimental` | Experimental function that will eventually be moved to another module. |
 
-The details of the different pacakges and functions can be found in their respective pages.
+The details of the different packages and functions can be found in their respective pages.

@@ -24,7 +24,7 @@ def average_ulactivity(intsig: np.array, windur: float, winshift: float,
         np.array: 1D numpy array of the average upper-limb activity.
     """
     assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
-    assert windur > 0, "windur (avaraging window duration) must be a positive number."
+    assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
     assert sample_t > 0, "sample_t (sampling time) must be a positive number."
     
@@ -143,7 +143,7 @@ def average_latindex(latinx_inst: np.array, windur: float, winshift: float,
         A tuple of 1D numpy arrays. The first 1D  array is the list of time indices of the computed average laterality index signal. The second 1D array is the average laterality index signal.
     """
     
-    assert windur > 0, "windur (avaraging window duration) must be a positive number."
+    assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
     assert sample_t > 0, "sample_t (sampling time) must be a positive number."
     assert np.all(np.array([np.array(latinx_inst) <= 1,

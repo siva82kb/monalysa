@@ -1,6 +1,6 @@
 
 """
-``experimental.py`` is a module contains functions implementing algorithms that
+``experimental.py`` module contains functions for implementing algorithms that
 are still experimental. No guarantees are made regarding the performance of 
 the algorithms in this module.
 ----
