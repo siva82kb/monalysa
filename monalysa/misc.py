@@ -67,8 +67,8 @@ def gram_schmidt_orthogonalize(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray
     Returns
     -------
     tuple[np.ndarray, np.ndarray, np.ndarray]
-        Returns the GS orthogonalized (x_normn, y_norm) vectors, with the rows corresponding 
-        to the different orthogonalized vectors, and the columsn corresponding 
+        Returns the GS orthogonalized (x_norm, y_norm) vectors, with the rows corresponding
+        to the different orthogonalized vectors, and the columns corresponding
         to the different components.
         The norm of the rows of x_norm and y_norm will 1. The dot product of 
         the rows of the x_norm nad y_norm will be 0.

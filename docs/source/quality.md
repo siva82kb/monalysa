@@ -3,7 +3,7 @@
 
 The `quality` package contains modules for quantifying different movement quality measures. 
 
-This pacakge contains the following modules:
+This package contains the following modules:
 
 ```{toctree}
 :caption: 'Contents:'

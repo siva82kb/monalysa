@@ -1,6 +1,6 @@
 
 """
-``movements.py`` is a module contains classes and functions to generate
+``movements.py`` is a module that contains classes and functions to generate
 different types of simulated movements.
 
 ----
@@ -46,7 +46,7 @@ def mjt_discrete_movement(amp=1.0, dur=1.0, loc=0.,
                           time=np.arange(-0.5, 0.5, 0.01),
                           data_type='vel') -> np.array:
     """
-    Generate a discrete Minumum Jerk Trajectory (MJT) movement speed profile
+    Generate a discrete Minimum Jerk Trajectory (MJT) movement speed profile
     of the given amplitude, duration and time location for the given time span.
 
     Parameters
@@ -64,7 +64,7 @@ def mjt_discrete_movement(amp=1.0, dur=1.0, loc=0.,
     data_type   : string
                   The type data returned by the function. The function can 
                   return velocity, acceleration or jerk. There are only three 
-                  possibiliies, {'vel', 'accl', 'jerk'}, corresponding to 
+                  possibilities, {'vel', 'accl', 'jerk'}, corresponding to
                   velocity, acceleration and jerk.
     Returns
     -------
@@ -117,7 +117,7 @@ def gaussian_discrete_movement(amp: float=1.0, dur: float=1.0, loc: float=0.,
     data_type   : string
                   The type data returned by the function. The function can 
                   return velocity, acceleration or jerk. There are only three 
-                  possibiliies, {'vel', 'accl', 'jerk'}, corresponding to 
+                  possibilities, {'vel', 'accl', 'jerk'}, corresponding to
                   velocity, acceleration and jerk.
     Returns
     -------
@@ -157,7 +157,7 @@ def gaussian_rhytmic_movement(amp: float, dur: float, interval: float,
     Parameters
     ----------
     amp         : float
-                  Amplitud of each submovement.
+                  Amplitude of each submovement.
     dur         : float
                   Duration of each submovement.
     interval    : float
@@ -252,7 +252,7 @@ def generate_movement(Ns: int, amp: np.array, dT: np.array, T: np.array,
     dT              : np.array
                       This is the inter-submovement interval. This is
                       of length Ns-1, as it only contains the intervals
-                      with repsect to the previous submovement. The
+                      with respect to the previous submovement. The
                       first submovement is assumed to start from zero,
                       i.e. the its center is located at half its duration.
     T               : np.array
@@ -265,7 +265,7 @@ def generate_movement(Ns: int, amp: np.array, dT: np.array, T: np.array,
     data_type       : string
                       The type data returned by the function. The function can 
                       return velocity, acceleration or jerk. There are only three 
-                      possibiliies, {'vel', 'accl', 'jerk'}, corresponding to 
+                      possibilities, {'vel', 'accl', 'jerk'}, corresponding to
                       velocity, acceleration and jerk.
 
     Returns
