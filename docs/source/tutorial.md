@@ -10,4 +10,6 @@ Monalysa for the analysis of movement data.
 
 notebooks/movements.ipynb
 notebooks/smoothness_analysis.ipynb
+notebooks/smoothness_analysis_imu.ipynb
+notebooks/ulfunctioning_analysis.ipynb
 ```

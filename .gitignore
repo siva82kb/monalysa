@@ -205,3 +205,7 @@ Thumbs.db
 # Editor backup files #
 #######################
 *~
+
+# Others #
+##########
+data/*

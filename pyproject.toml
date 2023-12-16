@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "monalysa"
-version = "0.0.16"
-description = "A unified library for carrying out quantitative movement analysis."
+version = "0.1.0"
+description = "A unified library for quantitative movement analysis."
 authors = ["Sivakumar Balasubramanian (Siva) <siva82kb@gmail.com>"]
 readme = "README.md"
 license = "MIT"
@@ -18,7 +18,7 @@ build-backend = "poetry.core.masonry`.api"
 
 [project-optional-dependencies]
 docs = [
-    "sphinx=5.0.2,
+    "sphinx=5.0.2",
     "myst-parser",
     "furo",
     "nbsphinx"

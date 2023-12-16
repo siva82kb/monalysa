@@ -24,9 +24,9 @@ api
 preprocess
 quality
 ulfunc
-readers
 movements
 misc
+experimental
 tutorial
 contributors
 ```
