@@ -7,3 +7,9 @@ In the spirit of open science, the monalysa library provides open-source code fo
 
 ## Who is this library for?
 This library is aimed at students, researchers, clinicians and industry professionals working with movement data.
+
+## Read the Documentation
+You can find the documentation for the Monalysa library at [https://monalysa.readthedocs.io/en/latest/](https://monalysa.readthedocs.io/en/latest/).
+
+## Contributors
+Sivakumar Balasubramanian, Tanya Subash, Alejandro Melendez-Calderon, Camila Shirota.
