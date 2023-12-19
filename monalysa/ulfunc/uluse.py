@@ -228,7 +228,7 @@ def from_gmac(accl: np.array, fs: float,
         Index of the forearm component of the acceleration data. Must be an integer between 0 and  and the number of columns in accl.
     elb_to_farm: bool
         Indicates if the axis points from the elbow to forearm, or the other way around.
-    np : int
+    nwin : int
         Number of samples to use for moving averaging. Must be a positive integer.
     fc : float
         Cutoff frequency for the highpass filter used for filtering the acceleration data. Must be a positive number.
