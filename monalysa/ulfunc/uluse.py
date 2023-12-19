@@ -211,9 +211,9 @@ def detector_with_hystersis(x: np.array, th: float, th_band: float) -> np.array:
 
 def from_gmac(accl: np.array, fs: float, 
               accl_farm_inx: int, elb_to_farm: bool,
-              nwin: int, fc: float, nc: int, nam: int,
-              p_th: float, p_th_band: float,
-              am_th: float, am_th_band: float) -> np.array:
+              nwin: int = None, fc: float = 0.1, nc: int = 2, nam: int = None,
+              p_th: float = 10, p_th_band: float = 40,
+              am_th: float = 0.1, am_th_band: float = 0) -> np.array:
     """
     Computes UL use using the GMAC algorithm with pitch and acceleration magnitude estimated only from acceleration.
 
@@ -228,21 +228,21 @@ def from_gmac(accl: np.array, fs: float,
         Index of the forearm component of the acceleration data. Must be an integer between 0 and  and the number of columns in accl.
     elb_to_farm: bool
         Indicates if the axis points from the elbow to forearm, or the other way around.
-    nwin : int
-        Number of samples to use for moving averaging. Must be a positive integer.
-    fc : float
+    nwin : int, default = fs/2
+        Number of samples to use for moving averaging for estimating the pitch angle of the forearm. Must be a positive integer.
+    fc : float, default = 0.1
         Cutoff frequency for the highpass filter used for filtering the acceleration data. Must be a positive number.
-    nc : int
+    nc : int, default = 2
         Order of the highpass filter used for filtering the acceleration data. Must be a positive integer.
-    nam : int
-        Number of samples to use for moving averaging. Must be a positive integer.
-    p_th : float
-        Upper threshold for the pitch angle.
-    p_th_band : float
-        Hystersis band for the pitch angle.
-    am_th : float
+    nam : int, default = 5*fs
+        Number of samples to use for moving averaging for computing the magnitude of the acceleration. Must be a positive integer.
+    p_th : float, default = 10
+        Upper threshold for the pitch angle in degrees.
+    p_th_band : float, default = 40
+        Hystersis band for the pitch angle in degrees.
+    am_th : float, default = 0.1
         Upper threshold for the acceleration magnitude.
-    am_th_band : float
+    am_th_band : float, default = 0
         Hystersis band for the acceleration magnitude.
 
     Returns
@@ -252,6 +252,13 @@ def from_gmac(accl: np.array, fs: float,
         to the pitch angle, the second column corresponds to the acceleration
         magnitude, and the third column corresponds to the GMAC output. 
     """
+    # Default values
+    if nwin is None:
+        nwin = int(fs/2)
+
+    if nam is None:
+        nam = 5*fs
+
     # Estimate pitch and acceleration magnitude
     pitch = estimate_accl_pitch(accl, accl_farm_inx, elb_to_farm, nwin)
     accl_mag = estimate_accl_mag(accl, fs, fc=fc, nc=nc, n_am=nam)
@@ -282,8 +289,8 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     -------
     tuple[np.array, np.array]
         A tuple of 1D numpy arrays. The first 1D array is the list of time 
-        indices of the computed average UL use signal. The second ID array is
-        the average UL use use signal.
+        indices of the computed average UL use signal. The second 1D array is
+        the average UL use signal.
     """
     assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
