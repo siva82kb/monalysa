@@ -211,7 +211,7 @@ def detector_with_hystersis(x: np.array, th: float, th_band: float) -> np.array:
 
 def from_gmac(accl: np.array, fs: float, 
               accl_farm_inx: int, elb_to_farm: bool,
-              np: int, fc: float, nc: int, nam: int,
+              nwin: int, fc: float, nc: int, nam: int,
               p_th: float, p_th_band: float,
               am_th: float, am_th_band: float) -> np.array:
     """
@@ -253,7 +253,7 @@ def from_gmac(accl: np.array, fs: float,
         magnitude, and the third column corresponds to the GMAC output. 
     """
     # Estimate pitch and acceleration magnitude
-    pitch = estimate_accl_pitch(accl, accl_farm_inx, elb_to_farm, np)
+    pitch = estimate_accl_pitch(accl, accl_farm_inx, elb_to_farm, nwin)
     accl_mag = estimate_accl_mag(accl, fs, fc=fc, nc=nc, n_am=nam)
     
     # Compute GMAC
