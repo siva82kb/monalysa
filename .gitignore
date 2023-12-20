@@ -209,3 +209,5 @@ Thumbs.db
 # Others #
 ##########
 data/*
+*.code-workspace
+settings.json
