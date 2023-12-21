@@ -28,5 +28,7 @@ movements
 misc
 experimental
 tutorial
+updates
+future
 contributors
 ```

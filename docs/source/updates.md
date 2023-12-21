@@ -1,4 +1,6 @@
-# Monalysa Updates Document
+# Updates History
+Document containing the summary of the updates to the library. This document will 
+be updated for every new minor/major release of the library.
 
 ##### Version 0.1.1 
 - Released on Dec 21, 2023
