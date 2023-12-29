@@ -13,12 +13,44 @@ movements one can failry consistent rate the relative smoothness of two movement
 a valid, robust and sensitive general measure of smoothness for use with 
 different types of movements, measured movement variables, and technologies has been 
 a struggle. Two candidate measures have emerged as the most popular measures of smoothness 
-in the last 10 years[^sparc1] [^sparc2] [^ldlj]: **spectral arc length (SPARC)** and **log dimensionless jerk (LDLJ)**.
+in the last 10 years[^sparc1] [^sparc2] [^ldlj]: **spectral arc length (SPARC)** 
+and **log dimensionless jerk (LDLJ)**.
 
 The smoothness module of the monalysa library contains functions for computing the smoothness 
 of discrete movements using the SPARC and LDLJ; along with some variants of the LDLJ --  
 dimensionless jerk and the LDLJ computed from accelerometer data. The detailed module 
 documentation can be found [here](smoothnessdoc).
+
+## Properties of Smoothness Measures
+A measure of movement smoothness must satisfy the following properties:
+1. **It is dimensionless**, i.e. the value of a smoothness of a movement must be 
+independent of its amplitude and duration. 
+
+    Let {math}`m(t)` by the kinematics of a movement {math}`M`, and let {math}`\lambda(m(t))` 
+    be the smoothness of this movement; note, that {math}`\lambda\left(\cdot\right)` is a 
+    smoothness measure. Then, uniform scaling of the amplitude and duration of {math}`m(t)` 
+    does not impact the smoothness of the movement, i.e.
+    ```{math}
+        \lambda\left(A \cdot m\left(\frac{t}{T}\right)\right) = \lambda\left(m(t)\right)
+    ```
+
+2. **It decreases with the number of submovements**. When we view the movement as 
+being composed of individual submovements, the smoothness of the movement should 
+decrease with increase in the number of submovements.
+
+3. **It decreases with increase in the inter-submovement interval**.
+
+In addition to these, the measures must also be robust to noise and sensitive to 
+small changes in the movement profile.
+
+Balasubramanian et. al[^sparc1] showed that the SPARC and the LDLJ satisfy the above 
+properties.
+
+## Log Dimensionless Jerk (LDLJ)
+Jerk -- the third derivative of position -- has become intimately associated with the 
+concept of movement smoothness ever since Flash and Hogan published their minimum 
+jerk model for describing discrte point-to-point reaching movements[^flash].
+
 
 
 
