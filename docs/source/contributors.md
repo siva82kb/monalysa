@@ -4,10 +4,11 @@ The original library was conceived and created by Sivakumar Balasubrmanian (SB)[
 
 The library is currently maintained by:
 - Sivakumar Balasubrmanian
-- Tanya Subash (USC)
+- Tanya Subash[^TS]
 - Alehandro Melendez-Calderon
 - Camila Shirota
 
 [^SB]:Christian Medical College Vellore, India
 [^AMC]:Univesity of Queensland, Australia
 [^CS]:Griffith's University, Australia
+[^TS]:University of Southern California, USA
