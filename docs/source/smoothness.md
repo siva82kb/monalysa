@@ -49,10 +49,45 @@ properties.
 ## Log Dimensionless Jerk (LDLJ)
 Jerk -- the third derivative of position -- has become intimately associated with the 
 concept of movement smoothness ever since Flash and Hogan published their minimum 
-jerk model for describing discrte point-to-point reaching movements[^flash].
+jerk model for describing discrte point-to-point reaching movements[^flash]. The 
+dimensionless jerk measure computes the sqauared jerk of a given movement, while 
+appropriately accounting for the amplitude and duration of the movement, so that the 
+measure is dimensionless, i.e. the value is unitless. 
+
+Let {math}`v(t)` be the velocity profile of a movement of interest, and the movement 
+starts at {math}`t=0` and ends at {math}`t=T`. The dimensionless jerk (DJ) measure of 
+movement smoothness for this movement is given by,
+```{math}
+    \text{DJ} := - \frac{T^5}{V^2} \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt
+```
+where, {math}`V = \max_{t} \Vert v(t) \Vert` is the peak speed of the movement, and
+{math}`T` is the durtion of the movement. The DJ measure can be 
+computed using the `dimensionless_jerk` function in the `smoothness` module.
+
+However, the DJ measure's value changes by several orders of magnitude 
+when the smoothness of a movement changes. The log dimensionless jerk (LDLJ) addresses 
+this problem by taking the log of the absolute value of dimensionless jerk.
+```{math}
+    \text{LDLJ} := - \ln \left( \frac{T^5}{V^2} \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt \right)
+```
+This can be reformualted as the following,
+```{math}
+    \text{LDLJ} = - 3\ln T + 2\ln V - \ln \left( \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt \right)
+```
+The individual terms of LDLJ can be computed using the function `ldlj_terms` in the
+smoothness module, and LDLJ from the function `log_dimensionless_jerk`.
 
 
+## Spectral Arc Length (SPARC)
+The SPARC measure of smoothness computes the arc length of the magnitude of the 
+Fourier transform of the movement profile.
+```{math}
+    \text{SPARC} := \int_{0}^{\infty} \left\Vert \mathcal{F}\left\{m(t)\right\} \right\Vert dt
+```
+where, {math}`\mathcal{F}\left\{\cdot\right\}` is the Fourier transform operator, and
 
+The SPARC measure can be computed using the `spectral_arc_length` function in the
+smoothness module.
 
 **References**
 [^flash]: Flash, Tamar, and Neville Hogan. "The coordination of arm movements: an experimentally confirmed mathematical model." The Journal of Neuroscience 5.7 (1985): 1688-1703.
