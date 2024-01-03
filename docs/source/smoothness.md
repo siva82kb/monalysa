@@ -35,18 +35,18 @@ independent of its amplitude and duration.
     ```
 
 2. **It decreases with the number of submovements**. When we view the movement as 
-being composed of individual submovements, the smoothness of the movement should 
-decrease with increase in the number of submovements.
+being composed of individual submovements, the value of the smoothness measure 
+should decrease with increase in the number of submovements.
 
-3. **It decreases with increase in the inter-submovement interval**.
+3. **It decreases with increase in the inter-submovement interval**. In the submovement 
+view of movement, increase in the inter-submovement interval between successive 
+submovements should decrease with the value of the smoothness measure.
 
 In addition to these, the measures must also be robust to noise and sensitive to 
-small changes in the movement profile.
+small changes in the movement profile.Balasubramanian et. al[^sparc1] showed that 
+the SPARC and the LDLJ satisfy the above properties.
 
-Balasubramanian et. al[^sparc1] showed that the SPARC and the LDLJ satisfy the above 
-properties.
-
-## Log Dimensionless Jerk (LDLJ)
+## Dimensionless Jerk (DL)
 Jerk -- the third derivative of position -- has become intimately associated with the 
 concept of movement smoothness ever since Flash and Hogan published their minimum 
 jerk model for describing discrte point-to-point reaching movements[^flash]. The 
@@ -64,6 +64,28 @@ where, {math}`V = \max_{t} \Vert v(t) \Vert` is the peak speed of the movement, 
 {math}`T` is the durtion of the movement. The DJ measure can be 
 computed using the `dimensionless_jerk` function in the `smoothness` module.
 
+```{code} python
+>>> import numpy as np
+>>> from monalysa.movements import mjt_discrete_movement
+>>> from monalysa.quality.smoothness import dimensionless_jerk
+>>> from monalysa.quality.smoothness import dimensionless_jerk_factors
+>>> fs = 100.
+>>> t = np.arange(0, 1.0, 1/fs)
+>>> vel = monalysa.movements.mjt_discrete_movement()
+>>> dimensionless_jerk(vel, fs=fs, data_type="vel", rem_mean=False)
+-185.70122547199867
+```
+
+You can obtain the three factors of the dimensionless jerk measure {math}`T^5`,
+{math}`A^2`, and {math}`\int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt` 
+using the `dimensionless_jerk_factors` function in the `smoothness` module.
+
+```{code} python
+>>> dimensionless_jerk_factors(vel, fs=fs, data_type="vel", rem_mean=False)
+(1.0, 3.5156249999999982, 652.8558707999949)
+```
+
+## Log Dimensionless Jerk (LDLJ)
 However, the DJ measure's value changes by several orders of magnitude 
 when the smoothness of a movement changes. The log dimensionless jerk (LDLJ) addresses 
 this problem by taking the log of the absolute value of dimensionless jerk.
@@ -76,7 +98,6 @@ This can be reformualted as the following,
 ```
 The individual terms of LDLJ can be computed using the function `ldlj_terms` in the
 smoothness module, and LDLJ from the function `log_dimensionless_jerk`.
-
 
 ## Spectral Arc Length (SPARC)
 The SPARC measure of smoothness computes the arc length of the magnitude of the 

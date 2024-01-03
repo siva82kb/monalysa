@@ -7,7 +7,7 @@ This package contains the following modules:
 
 ```{toctree}
 :caption: 'Contents:'
-:maxdepth: 1
+:maxdepth: 2
 
 smoothness
 ```
