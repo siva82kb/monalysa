@@ -76,7 +76,7 @@ computed using the `dimensionless_jerk` function in the `smoothness` module.
 -185.70122547199867
 ```
 
-You can obtain the three factors of the dimensionless jerk measure {math}`T^5`,
+We can obtain the three factors of the dimensionless jerk measure {math}`T^5`,
 {math}`A^2`, and {math}`\int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt` 
 using the `dimensionless_jerk_factors` function in the `smoothness` module.
 
@@ -94,10 +94,21 @@ this problem by taking the log of the absolute value of dimensionless jerk.
 ```
 This can be reformualted as the following,
 ```{math}
-    \text{LDLJ} = - 3\ln T + 2\ln V - \ln \left( \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt \right)
+    \text{LDLJ} = - 5\ln T + 2\ln V - \ln \left( \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt \right)
 ```
-The individual terms of LDLJ can be computed using the function `ldlj_terms` in the
-smoothness module, and LDLJ from the function `log_dimensionless_jerk`.
+The individual terms of LDLJ can be computed using the function `log_dimensionless_jerk_factors` 
+in the `smoothness` module, and LDLJ from the function `log_dimensionless_jerk`.
+
+```{code} python
+>>> from monalysa.quality.smoothness import log_dimensionless_jerk
+>>> from monalysa.quality.smoothness import log_dimensionless_jerk_factors
+>>> print("LDLJ: ", log_dimensionless_jerk(vel, fs=fs, data_type="vel"))
+>>> print("LDLJ Factors: ", log_dimensionless_jerk_factors(vel, fs=fs, data_type="vel"))
+>>> print("Sum of LDLJ Factors: ", np.sum(log_dimensionless_jerk_factors(vel, fs=fs, data_type="vel")))
+LDLJ:  -5.224139067539895
+LDLJ Factors:  (-0.0, 1.2572173188447482, -6.481356386384643)
+Sum of LDLJ Factors:  -5.224139067539895
+```
 
 ## Spectral Arc Length (SPARC)
 The SPARC measure of smoothness computes the arc length of the magnitude of the 
