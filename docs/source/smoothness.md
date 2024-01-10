@@ -114,12 +114,54 @@ Sum of LDLJ Factors:  -5.224139067539895
 The SPARC measure of smoothness computes the arc length of the magnitude of the 
 Fourier transform of the movement profile.
 ```{math}
-    \text{SPARC} := \int_{0}^{\infty} \left\Vert \mathcal{F}\left\{m(t)\right\} \right\Vert dt
+    \text{SPARC} := -\int_{0}^{\omega_{c}}\!\left[\!\!\left(\!\frac{1}{\omega_{c}}\!\right)^{2} \,+\, \left(\!\frac{d\hat{V}(\omega)}{d\omega}\!\right)^{2}\!\right]^{\frac{1}{2}}\!d\omega; \,\,\, \hat{V}(\omega) = \frac{V(\omega)}{V(0)}
 ```
-where, {math}`\mathcal{F}\left\{\cdot\right\}` is the Fourier transform operator, and
+```{math}
+    \omega_{c} := \min\left\{\omega_{c}^{max}, \min\left\{\omega\,\,\,,\hat{V}(r)<\overline{V} \,\,\, \forall \,\,\, r >\omega \right\} \right\}
+```
+The arc length is a measure of complexity of the Fourier magnitude spectrum of the 
+speed profile. Increasing the number of submovements and the inter-submovement 
+interval. The SPARC measure can be computed using the `sparc` function 
+in the smoothness module.
 
-The SPARC measure can be computed using the `spectral_arc_length` function in the
-smoothness module.
+```{code} python
+>>> from monalysa.quality.smoothness import sparc
+>>> fs = 100.
+>>> ts = 1 / fs
+>>> t = np.arange(0, 1.0, ts)
+>>> vel = mjt(amp=1, dur=1.0, loc=0.5, time=t, data_type="vel")
+>>> sparc(vel, fs=fs)[0]
+-1.4058293244214655
+```
+The `sparc` function returns three values: the SPARC measure value, a tuple with 
+the frequency and the magnitude spectrum of the movement profile, and another tuple 
+with the frequency and the magnitude spectrum selected for computing the arc length.
+
+```{code} python
+>>> _, Vf, Vfsel = sparc(vel, fs=fs)
+>>> # Plot Fourier spectrum
+>>> fig = plt.figure(figsize=(10, 3))
+>>> ax = plt.subplot(121)
+>>> ax.plot(t, vel)
+>>> ax.set_xlabel("Time $t$ (sec)")
+>>> ax.set_ylabel(r"$v(t)$")
+>>> ax = plt.subplot(122)
+>>> ax.plot(Vf[0], Vf[1], label="Full Spectrum")
+>>> ax.plot(Vfsel[0], Vfsel[1], lw=2, color="tab:red", label="Selected Spectrum")
+>>> ax.axhline(0.05, lw=1, ls="dashed", color="k")
+>>> ax.set_xlim(0, 12)
+>>> ax.set_xlabel("Frequency $f$ (Hz)")
+>>> ax.set_ylabel(r"$\vert V(2\pi f)\vert$")
+>>> ax.legend(loc=1)
+```
+![Alt text](_static/sparc_demo_mjt.svg)
+
+If you are feeling adventurous at this point, try computing the SPARC measure 
+for a random movement using `generate_random_movement` function in the `movements` 
+module, and look at its Fourier spectrum and the segment selected for computing 
+the arc length. 
+
+
 
 **References**
 [^flash]: Flash, Tamar, and Neville Hogan. "The coordination of arm movements: an experimentally confirmed mathematical model." The Journal of Neuroscience 5.7 (1985): 1688-1703.
