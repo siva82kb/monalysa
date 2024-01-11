@@ -26,16 +26,6 @@ The AC measures are known to be highly sensitive while having very low specifici
 
 ![Alt text](_static/opt_gmac.png)
 
-Let {math}`v(t)` be the velocity profile of a movement of interest, and the movement 
-starts at {math}`t=0` and ends at {math}`t=T`. The dimensionless jerk (DJ) measure of 
-movement smoothness for this movement is given by,
-```{math}
-    \text{DJ} := - \frac{T^5}{V^2} \int_{0}^{T} \left\Vert \frac{d^2 v(t)}{dt^2} \right\Vert^2 dt
-```
-where, {math}`V = \max_{t} \Vert v(t) \Vert` is the peak speed of the movement, and
-{math}`T` is the durtion of the movement. The DJ measure can be 
-computed using the `dimensionless_jerk` function in the `smoothness` module.
-
 ```{code} python
 >>> import numpy as np
 >>> from monalysa.movements import mjt_discrete_movement
