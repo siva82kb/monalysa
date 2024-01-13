@@ -1,19 +1,16 @@
 # Movement Smoothness
 
 Smooth movements are a hallmark of well developed and learned motor behavior[^flash]. 
-Movement smoothness is one of the most commonly used movement quality constrcuts 
-that is of interest in various field, such as movement science, motor control/learning,
-biomechanics, and neurorehabilitation. 
+Movement smoothness is one of the most commonly used movement quality constructs 
+that is of interest in various fields, such as movement science, motor control/learning, biomechanics, and neurorehabilitation. 
 
 > **Definition.** **Movement smoothness** is a measure of the amount of intermittency 
 > or fluency in a given movement.
 
-Intuitively, movement smoothness is a easy consturct to understand. When shown two 
-movements one can failry consistent rate the relative smoothness of two movements. However, 
-a valid, robust and sensitive general measure of smoothness for use with 
+Intuitively, movement smoothness is an easy construct to understand. When shown two 
+movements one can fairly consistent rate the relative smoothness of the two movements. However, a valid, robust and sensistive general measure of smoothness for use with 
 different types of movements, measured movement variables, and technologies has been 
-a struggle. Two candidate measures have emerged as the most popular measures of smoothness 
-in the last 10 years[^sparc1] [^sparc2] [^ldlj]: **spectral arc length (SPARC)** 
+a struggle. Two candidate measures have emerged as the most popular measures of smoothness in the last 10 years[^sparc1] [^sparc2] [^ldlj]: **spectral arc length (SPARC)** 
 and **log dimensionless jerk (LDLJ)**.
 
 The smoothness module of the monalysa library contains functions for computing the smoothness 
@@ -43,7 +40,7 @@ view of movement, increase in the inter-submovement interval between successive
 submovements should decrease with the value of the smoothness measure.
 
 In addition to these, the measures must also be robust to noise and sensitive to 
-small changes in the movement profile.Balasubramanian et. al[^sparc1] showed that 
+small changes in the movement profile. Balasubramanian et. al[^sparc1] showed that 
 the SPARC and the LDLJ satisfy the above properties.
 
 ## Dimensionless Jerk (DL)

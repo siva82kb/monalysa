@@ -32,8 +32,7 @@ def from_vec_mag(vecmag: np.array, usesig: np.array,
     Returns
     -------
     tuple[np.array, np.array]
-        A tuple of 1D numpy arrays. The first 1D array is the list of time indices of the computed UL use signal. The second 1D array is the UL use signal, which is a binary
-        signal indicating the presence or absence of a "functional" movement any time instant.
+        A tuple of 1D numpy arrays. The first 1D array is the list of time indices of the computed UL intensity signal. The second 1D array is the UL intensity signal.
     """
     
     assert len(vecmag) > 0, "vecmag cannot be a of zero length."
