@@ -21,8 +21,8 @@ Module for quantifying instantaneous and average UL use. This module has the fol
 ### Functions
 | Name | Description |
 |:-----|:------------|
-| `from_vector_magnitude1` | Compute instantaneous UL use from vector magnitude signal from the [ActiGraph](https://theactigraph.com/) sensor using single threshold. |
-| `from_vector_magnitude2` | Compute instantaneous UL use from vector magnitude signal from the [ActiGraph](https://theactigraph.com/) sensor using double threshold. |
+| `from_vector_mag` | Compute instantaneous UL use from vector magnitude signal from the [ActiGraph](https://theactigraph.com/) sensor using single threshold. |
+| `from_vector_mag_dblth` | Compute instantaneous UL use from vector magnitude signal from the [ActiGraph](https://theactigraph.com/) sensor using double threshold. |
 | `from_gmac` | Compute UL use from raw accelerometer data by computing the forearm pitch angle and acceleration magnitude. |
 | `estimate_accl_pitch` | Compute the forearm pitch angle from a wrist-worn accelerometer. |
 | `estimate_accl_mag` | Compute the acceleration magnitude from the accelerometer by removing gravity through highpass filtering. |

@@ -15,8 +15,8 @@ from datetime import datetime as dt
 from .. import misc
 
 
-def from_vector_magnitude(vecmag: np.array, usesig: np.array,
-                          nsample: int) -> tuple[np.array, np.array]:
+def from_vec_mag(vecmag: np.array, usesig: np.array,
+                 nsample: int) -> tuple[np.array, np.array]:
     """Computes UL intensity from the vector magnitude values from the 
     Actigraph sensor.
 
