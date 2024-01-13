@@ -271,7 +271,7 @@ def from_gmac(accl: np.array, fs: float,
 
 
 def average_uluse(usesig: np.array, windur: float, winshift: float,
-                  sample_t: float) -> tuple[np.array, np.array]:
+                  fs: float) -> tuple[np.array, np.array]:
     """Computes the average upper-limb use from the given UL use signal. The
     current version only supports causal averaging.
 
@@ -283,8 +283,8 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
         Duration in seconds over which the UL use signal is to be averaged.
     winshift : float
         Time shift between two consecutive averaging windows.
-    sample_t : float
-        Sampling time of the usesig signal.
+    fs : float
+        Sampling frequency of the usesig signal.
 
     Returns
     -------
@@ -295,10 +295,10 @@ def average_uluse(usesig: np.array, windur: float, winshift: float,
     """
     assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
-    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
+    assert fs > 0, "fs (sampling frequency) must be a positive number."
     assert misc.is_binary_signal(usesig, allownan=True), "Use signal must be a binary signal."
 
-    n_win = int(windur * sample_t)
-    n_shift = int(winshift * sample_t)
+    n_win = int(windur * fs)
+    n_shift = int(winshift * fs)
     avguse = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=usesig)
     return (np.arange(0, len(usesig), n_shift), avguse[::n_shift])

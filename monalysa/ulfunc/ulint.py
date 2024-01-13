@@ -45,7 +45,7 @@ def from_vec_mag(vecmag: np.array, usesig: np.array,
 
 
 def average_intuse(intsig: np.array, usesig: np.array, windur: float,
-                   winshift: float, sample_t: float) -> tuple[np.array, np.array]:
+                   winshift: float, fs: float) -> tuple[np.array, np.array]:
     """Computes the average upper-limb intensity of use from the given intensity and UL use signals. The current version only supports causal averaging.
 
     Parameters
@@ -58,8 +58,8 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
         Duration in seconds over which the UL intensity signal is to be averaged.
     winshift : float
         Time gap between two consecutive window locations.
-    sample_t : float
-        Sampling time of the intsig and usesig signal.
+    fs : float
+        Sampling frequency of the intsig and usesig signal.
 
     Returns
     -------
@@ -73,12 +73,12 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
     assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
     assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
-    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
+    assert fs > 0, "fs (sampling frequency) must be a positive number."
     assert np.all(np.any(np.array([np.array(intsig) >= 0,
                                    np.isnan(intsig)]), axis=0)), "Use signal must be a binary signal."
     
-    n_win = int(windur * sample_t)
-    n_shift = int(winshift * sample_t)
+    n_win = int(windur * fs)
+    n_shift = int(winshift * fs)
     _avgint = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=intsig)
     _avguse = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=usesig)
     _avgintuse = np.array([_ai / _au if _au > 0
@@ -86,3 +86,29 @@ def average_intuse(intsig: np.array, usesig: np.array, windur: float,
                            else 0
                            for _ai, _au in zip(_avgint, _avguse)])
     return (np.arange(0, len(intsig), n_shift), _avgintuse[::n_shift])
+
+
+def average_ulactivity(intsig: np.array, windur: float, winshift: float,
+                       fs: float) -> np.array:
+    """Computes the average upper-limb activity of use from the given
+    intensity and UL use signals. The current version only supports causal
+    averaging.
+
+    Args:
+        intsig (np.array): 1D numpy array of the instantaneous UL intensity signal whose average is to be computed.
+        windur (float): Duration in seconds over which the UL use signal is to be averaged.
+        winshift (float): Time shift between two consecutive averaging windows.
+        fs (float): Sampling frequency of the intsig signal.
+
+    Returns:
+        np.array: 1D numpy array of the average upper-limb activity.
+    """
+    assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
+    assert windur > 0, "windur (averaging window duration) must be a positive number."
+    assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
+    assert fs > 0, "fs (sampling frequency) must be a positive number."
+    
+    n_win = int(windur * fs)
+    n_shift = int(winshift * fs)
+    ulact = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=intsig) 
+    return (np.arange(0, len(intsig), n_shift), ulact[::n_shift])

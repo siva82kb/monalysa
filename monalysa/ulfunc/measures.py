@@ -8,32 +8,6 @@ from scipy import signal
 import numpy as np
 
 
-def average_ulactivity(intsig: np.array, windur: float, winshift: float,
-                       sample_t: float) -> np.array:
-    """Computes the average upper-limb activity of use from the given
-    intensity and UL use signals. The current version only supports causal
-    averaging.
-
-    Args:
-        intsig (np.array): 1D numpy array of the instantaneous UL intensity signal whose average is to be computed.
-        windur (float): Duration in seconds over which the UL use signal is to be averaged.
-        winshift (float): Time shift between two consecutive averaging windows.
-        sample_t (float): Sampling time of the intsig signal.
-
-    Returns:
-        np.array: 1D numpy array of the average upper-limb activity.
-    """
-    assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
-    assert windur > 0, "windur (averaging window duration) must be a positive number."
-    assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
-    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
-    
-    n_win = int(windur / sample_t)
-    n_shift = int(windur / sample_t)
-    ulact = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=intsig) 
-    return (np.arange(0, len(intsig), n_shift), ulact[::n_shift])
-
-
 def Hq(aua: np.array, q: float) -> float:
     """Computes the overall upper-limb activity using the average upper-limb
     activity time series.
