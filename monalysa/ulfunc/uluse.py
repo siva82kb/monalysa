@@ -113,7 +113,7 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
     elb_to_farm: bool
         Indicates if the axis points from the elbow to forearm, or the other way around.
     nwin : int
-        Number of samples to use for moving averaging. Must be a positive integer.
+        Number of samples to use for moving averaging. Must be a positive integer. Half of the sampling frequency is recommended.
     
     Returns
     -------
@@ -135,8 +135,8 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
     return _sign * np.rad2deg(np.arcsin(acclfn[:, farm_inx]))
 
 
-def estimate_accl_mag(accl: np.array, fs: float, fc: float, nc: int,
-                      n_am: int) -> np.array:
+def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.1, nc: int = 2,
+                      n_am: int = None) -> np.array:
     """
     Computes the magnitude of the accelerometer signal.
 
@@ -148,11 +148,11 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float, nc: int,
         corresponding to sampling instants.
     fs : float
         Sampling frequency of the acceleration data.
-    fc : float
+    fc : float, default = 0.1
         Cutoff frequency for the highpass filter used for filtering the acceleration data.
-    nc : int
+    nc : int, default = 2
         Order of the highpass filter used for filtering the acceleration data.
-    n_am : int
+    n_am : int, default = 5*fs
         Number of samples to use for moving averaging. Must be a positive integer.
     
     Returns
@@ -160,6 +160,11 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float, nc: int,
     np.array
         1D numpy array containing the magnitude of the acceleration data.
     """
+
+    # Default values
+    if n_am == None:
+        n_am = 5*fs
+
     assert len(accl.shape) == 2, "accl must be a 2D numpy array."
     assert accl.shape[1] <= 3, "accl must have at most 3 columns."
     assert fs > 0, "fs must be a positive number."
