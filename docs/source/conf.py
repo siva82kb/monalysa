@@ -12,7 +12,7 @@ sys.path.append("../../")
 project = 'Monalysa'
 copyright = '2023, Sivakumar Balasubramanian'
 author = 'Sivakumar Balasubramanian'
-release = '0.1.1'
+release = '0.2.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
