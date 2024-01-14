@@ -54,7 +54,7 @@ The function `average_ulactivity` can be used for computing the average upper li
 >>> _, _int = ulint.from_vec_mag(vmag, _use, 1)
 >>> _inxu, _avgu = uluse.average_uluse(_use, windur=0.25, winshift=0.05, fs=fs)
 >>> _inxi, _avgi = ulint.average_intuse(_int, _use, windur=0.25, winshift=0.05, fs=fs)
->>> _inxa, _avga = measures.average_ulactivity(_int, windur=0.25, winshift=0.05, fs=fs)
+>>> _inxa, _avga = ulint.average_ulactivity(_int, windur=0.25, winshift=0.05, fs=fs)
 ```
 Plotting the different variables from the above code snippet, we get the following figure. UL use is computed using `uluse.from_vec_mag_dblth` and instantaneous intensity of use from `uluse.from_vec_mag`. The average constructs are computed over a window 0.25sec long shifting every 50ms using `uluse.average_uluse` and `ulint.average_intuse`. The average UL activity is computed using `ulint.average_ulactivity`.
 
