@@ -1,37 +1,11 @@
 """
-``ulfunc.py`` contains functions and classes for implementing different measures for quantifying upper-limb functioning. 
+``measures.py`` contains functions and classes for implementing different measures for quantifying upper-limb functioning. 
 
 ----
 """
 
 from scipy import signal
 import numpy as np
-
-
-def average_ulactivity(intsig: np.array, windur: float, winshift: float,
-                       sample_t: float) -> np.array:
-    """Computes the average upper-limb activity of use from the given
-    intensity and UL use signals. The current version only supports causal
-    averaging.
-
-    Args:
-        intsig (np.array): 1D numpy array of the instantaneous UL intensity signal whose average is to be computed.
-        windur (float): Duration in seconds over which the UL use signal is to be averaged.
-        winshift (float): Time shift between two consecutive averaging windows.
-        sample_t (float): Sampling time of the intsig signal.
-
-    Returns:
-        np.array: 1D numpy array of the average upper-limb activity.
-    """
-    assert np.nanmin(intsig) >= 0., "intsig signal cannot be negative."
-    assert windur > 0, "windur (averaging window duration) must be a positive number."
-    assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
-    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
-    
-    n_win = int(windur / sample_t)
-    n_shift = int(windur / sample_t)
-    ulact = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=intsig) 
-    return (np.arange(0, len(intsig), n_shift), ulact[::n_shift])
 
 
 def Hq(aua: np.array, q: float) -> float:
@@ -116,14 +90,14 @@ def instantaneous_latindex(domnaff: np.array, ndomaff: np.array) -> tuple[np.arr
     assert np.nanmin(ndomaff) >= 0, "The input non-dominant/unaffected limb signal must be non-negative."
     
     _sum = np.array(ndomaff) + np.array(domnaff)
-    _diff = np.array(ndomaff) - np.array(domnaff)
+    _diff = np.array(domnaff) - np.array(ndomaff)
     _diff[_sum == 0] = np.NaN
     _diff[_sum != 0] = _diff[_sum != 0] / _sum[_sum != 0]
     return np.arange(0, len(_diff)), _diff
 
 
 def average_latindex(latinx_inst: np.array, windur: float, winshift: float,
-                           sample_t: float) -> tuple[np.array, np.array]:
+                     fs: float) -> tuple[np.array, np.array]:
     """Compute the average of the instantaneous laterality index signal.
 
     Parameters
@@ -135,7 +109,7 @@ def average_latindex(latinx_inst: np.array, windur: float, winshift: float,
     winshift : float
         Time shift between two consecutive averaging windows.
     sample_t : float
-        Sampling time of the usesig signal.
+        Sampling frequency of the usesig signal.
 
     Returns
     -------
@@ -145,11 +119,12 @@ def average_latindex(latinx_inst: np.array, windur: float, winshift: float,
     
     assert windur > 0, "windur (averaging window duration) must be a positive number."
     assert winshift > 0, "winshift (time shift between consecutive windows) must be a positive number."
-    assert sample_t > 0, "sample_t (sampling time) must be a positive number."
-    assert np.all(np.array([np.array(latinx_inst) <= 1,
-                            np.array(latinx_inst) >= -1])), "Laterality index signal cannot be less than -1 or greater than +1."
+    assert fs > 0, "fs (sampling frequency) must be a positive number."
+    assert np.all(np.any(np.array([np.abs(latinx_inst) <= 1,
+                                   np.isnan(latinx_inst)]),
+                         axis=0)), "Laterality index signal cannot be less than -1 or greater than +1. Nan is also allowed."
     
-    n_win = int(windur / sample_t)
-    n_shift = int(windur / sample_t)
+    n_win = int(windur * fs)
+    n_shift = int(windur * fs)
     avg_latinx = signal.lfilter(b=np.ones(n_win), a=np.array([n_win]), x=latinx_inst) 
     return (np.arange(0, len(latinx_inst), n_shift), avg_latinx[::n_shift])

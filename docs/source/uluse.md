@@ -1,6 +1,6 @@
 # Upper Limb Use
 
-Upper limb use assessment focuses only on measuring willed movements or postures of functional significance. Identifying such movements is a relatively trivial task for a human observing a subject performing various movements. A human’s ability to relate  to the movements being observed allows him/her to make judgements about the nature of a subject’s movements.
+Upper limb use assessment focuses only on measuring willed movements or postures of functional significance. Identifying such movements is a relatively trivial task for a human observing a subject performing various movements. A human’s ability to relate to the movements being observed allows him/her to make judgements about the nature of a subject’s movements.
 
 Upper limb use is the fundamental construct of upper limb functioning [^david2021b]. It is essential for deriving the other constructs in upper limb functioning. 
 
@@ -14,9 +14,9 @@ The most popular sensing modality is inertial sensing using inertial measurement
 upper limb use from only wrist-worn IMU data.
 
 ### Thresholded Activity Counts (AC)
-The amount of acceleration is thresholded using a measure specific threshold to estimate upper limb use. The computational simplicity of this measure makes it a quick and popular approach [^bailey2014] [^delucena2017]. However, while an increased amount of acceleration most likely correlates with increased upper-limb use, the feature is not unique to functional movements, and thus overestimates upper limb use. Two types of AC measures can be found in the literature: activity counting [^delucena2017], and vector magnitude [^bailey2014].
+The amount of acceleration is thresholded using a measure-specific threshold to estimate upper limb use. The computational simplicity of this measure makes it a quick and popular approach [^bailey2014] [^delucena2017]. However, while an increased amount of acceleration most likely correlates with increased upper-limb use, the feature is not unique to functional movements and thus overestimates upper-limb use. Two types of AC measures can be found in the literature: activity counting [^delucena2017], and vector magnitude [^bailey2014].
 
-The `uluse` module contains two functions `from_vec_mag` and from `from_vec_mag_dblth` for computing UL use from the vector magnitude signal that are provided by sensors like the [ActiGraph](https://theactigraph.com/).
+The `uluse` module contains two functions `from_vec_mag` and from `from_vec_mag_dblth` for computing UL use from the vector magnitude signal that is provided by sensors like the [ActiGraph](https://theactigraph.com/).
 
 ```{code} python
 >>> import numpy as np
@@ -28,7 +28,7 @@ The `uluse` module contains two functions `from_vec_mag` and from `from_vec_mag_
 >>> _, u1 = uluse.from_vec_mag(vmag, thresh=th1)
 >>> _, u2 = uluse.from_vec_mag_dblth(vmag, thresh_l=th2l, thresh_h=th2h)
 ```
-Plotting the different variables from the above code snippet, we get the following. The top row plots a simulated vector magnitude signal plotted in light blue. The horizontal lines in this plot show the thressholds used with the `from_vec_mag` and the `from_vec_mag_dblth` functions. The black dashed line corresponds to the single threshold of value {math}`v_{th}=3` used with the `from_vec_mag` function, which generates the UL use signal using the following rule (assume {math}`v[n]` is the value of the vector magnitude signl at time {math}`n`),
+Plotting the different variables from the above code snippet, we get the following. The top row plots a simulated vector magnitude signal plotted in light blue. The horizontal lines in this plot show the thresholds used with the `from_vec_mag` and the `from_vec_mag_dblth` functions. The black dashed line corresponds to the single threshold of value {math}`v_{th}=3` used with the `from_vec_mag` function, which generates the UL use signal using the following rule (assume {math}`v[n]` is the value of the vector magnitude signal at time {math}`n`),
 ```{math}
     u[n] = \begin{cases}
         1 & v[n] \geq v_{th} \\
@@ -52,9 +52,9 @@ The red dashed lines correspond to the double threshold of values 1 and 4 used w
 The corresponding UL use outputs from the `from_vec_mag` and `from_vec_mag_dlbth` functions are shown in the plots in rows 2 and 3, respectively in the above figure.
 
 ### GMAC (= GM + AC)
-**Gross Movement (GM) Score**. GM measure [^leuen2017] uses yaw and pitch angles computed using the Madgwick algorithm from the raw acceleration and gyroscope data. If the overall absolute change in yaw and pitch angles is higher than 30° and the absolute pitch of the forearm is within ± 30° in a time window, GM is defined as 1 (indicating functional use), else it is 0. The GM measure exploits the nature of most functional movements to occur in this ‘functional space’, i.e., in the region in front of subject around his/her chest height.
+**Gross Movement (GM) Score**. GM measure [^leuen2017] uses yaw and pitch angles computed using the Madgwick algorithm from the raw acceleration and gyroscope data. If the overall absolute change in yaw and pitch angles is higher than 30° and the absolute pitch of the forearm is within ± 30° in a time window, GM is defined as 1 (indicating functional use), else it is 0. The GM measure exploits the nature of most functional movements to occur in this ‘functional space’, i.e., in the region in front of the subject around his/her chest height.
 
-The AC measures are known to be highly sensitive while having very low specificity, and GM is highly specific but not sensitive [^subash2022]. The hybrid measure — GMAC combines the essential elements of TAC and GM measures. It employs counts with a modified GM measure; the counts are used instead of the absolute change in yaw and pitch angles. The ```from_gmac``` function in the ```uluse``` module uses an optimized version of the algorithm with a hysteresis threshold on the pitch angles [^gmac]. This recently formulated GMAC requires only the raw acceleration data from the forearm. When optimized, it performs as well as a machine learning algorithms trained to work across subjects[^gmac].
+The AC measures are known to be highly sensitive while having very low specificity, and GM is highly specific but not sensitive [^subash2022]. The hybrid measure — GMAC combines the essential elements of TAC and GM measures. It employs counts with a modified GM measure; the counts are used instead of the absolute change in yaw and pitch angles. The ```from_gmac``` function in the ```uluse``` module uses an optimized version of the algorithm with a hysteresis threshold on the pitch angles [^gmac]. This recently formulated GMAC requires only the raw acceleration data from the forearm. When optimized, it performs as well as a machine learning algorithm trained to work across subjects[^gmac].
 
 ![Alt text](_static/gmac_accl.svg)
 
@@ -67,7 +67,7 @@ The AC measures are known to be highly sensitive while having very low specifici
 >>> ay = 0.1 * np.sin(0.05 * 2 * np.pi * t)
 >>> az = 0.8 * np.sin(0.02 * 2 * np.pi * t)
 >>> accl = np.array([ax, ay, az]).T
->>> accl_farm_inx = 0   # index of column with acceleration along the forearm 
+>>> accl_farm_inx = 0   # index of the column with acceleration along the forearm 
 >>> elb_to_farm = True  # axis points from elbow to forearm
 >>> pitch, amag, use = uluse.from_gmac(accl, fs, accl_farm_inx, elb_to_farm)
 >>> print("Pitch: ", pitch)
@@ -83,9 +83,7 @@ The plot of the different signals in the above code snippets is shown below.
 
 ![Alt text](_static/gmac_use.svg)
 
-The best performing UL use methods are machine learning methods that are optimized for 
-individual subjects, which require training data from each subject. For more details, 
-refer to the work by Subash et. al[^subash2022]. 
+The best performing UL use methods are machine learning methods that are optimized for individual subjects, which require training data from each subject. For more details, refer to the work by Subash et. al[^subash2022]. 
 
 **References**
 [^david2021b]: David, Ann, Tanya Subash, S. K. M. Varadhan, Alejandro Melendez-Calderon, and Sivakumar Balasubramanian. "A framework for sensor-based assessment of upper-limb functioning in hemiparesis." Frontiers in Human Neuroscience 15 (2021).
