@@ -13,7 +13,10 @@ keywords = ["movement analysis", "biomechanics", "neurorehabilitation", "sport s
 python = "^3.9"
 
 [build-system]
-requires = ["poetry-core"]
+requires = [
+    "poetry-core",
+    "sphinx>=5.0",
+]
 build-backend = "poetry.core.masonry`.api"
 
 [project-optional-dependencies]
