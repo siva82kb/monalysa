@@ -3,3 +3,4 @@ pandas
 matplotlib
 scipy
 sphinx>=5.0
+sphinxcontrib.applehelp==1.0.8 
