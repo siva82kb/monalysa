@@ -5,3 +5,13 @@ matplotlib
 scipy
 sphinx==5.0.2
 sphinxcontrib.applehelp==1.0.7
+sphinxcontrib_devhelp==1.0.5
+sphinxcontrib_htmlhelp==2.0.4
+sphinxcontrib_serializinghtml==1.1.9
+sphinxcontrib_qthelp==1.0.6
+Jinja2==3.1.2
+importlib_metadata==7.0.0
+nbconvert==7.13.1
+traitlets==5.14.0
+fonttools==4.47.0
+Pillow==10.1.0
