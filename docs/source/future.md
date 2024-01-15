@@ -2,15 +2,13 @@
 ## Future Plans
 Document containing future plans for the library. This document will be updated as the library evolves.
 
-####  Plan for 0.2.0 release
-**Tentative release date**: Mid Jan 2024
+####  Plan for 0.3.0 release
+**Tentative release date**: End Feb 2024
 
 **Things to do:**
 - Add a new function to the `monalysa` module that returns the version of the library.
-- Detailed funcion documentation for every major function in the sci-kit learn style.
+- Automatic installation of library dependencies when monalysa is installed with `pip`.
 - Detailed tutorials to be moved to a separate repository that is linked to the documentation.
-- GMAC analsyis on the open dataset from Ann's study.
-
 
 #### Planned Features
 - More movement segmentation methods
