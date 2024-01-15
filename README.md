@@ -8,6 +8,12 @@ In the spirit of open science, the monalysa library provides open-source code fo
 ## Who is this library for?
 This library is aimed at students, researchers, clinicians and industry professionals working with movement data.
 
+## Installing Monalysa 
+Monalysa is available through PyPI and can be easily installed using the following pip command.
+```console
+(.venv) $ pip install monalysa  
+````
+
 ## Read the Documentation
 You can find the documentation for the Monalysa library at [https://monalysa.readthedocs.io/en/latest/](https://monalysa.readthedocs.io/en/latest/).
 
