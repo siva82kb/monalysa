@@ -1,15 +1,10 @@
 
 # Monalysa Tutorial
 
-The following are series of python notebooks that demonstrate the use of 
-Monalysa for the analysis of movement data.
 
-```{toctree}
-:caption: 'Contents:'
-:maxdepth: 1
+```{warning} 
+[{sub-ref}`today`] We are working on a separate GitHub repository for the Monalysa tutorial. 
 
-notebooks/movements.ipynb
-notebooks/smoothness_analysis.ipynb
-notebooks/smoothness_analysis_imu.ipynb
-notebooks/ulfunctioning_analysis.ipynb
+We hope to release it soon.
 ```
+

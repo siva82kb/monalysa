@@ -7,7 +7,7 @@ This package contains the following modules, each of which implements functions 
 
 ```{toctree}
 :caption: 'Contents:'
-:maxdepth: 1
+:maxdepth: 2
 
 uluse
 ulint

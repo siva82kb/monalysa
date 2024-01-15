@@ -1,11 +1,11 @@
 # UL Function Measures
 
-UL use, intensity, and activity measures compute temporal signals related to how much an UL is used using raw measureemnts of movement related varaibles. These signals can be used to compute an overall measure of how much an UL is used and the relative use of both ULs.
+UL use, intensity, and activity measures compute temporal signals related to how much a UL is used using raw measurements of movement-related variables. These signals can be used to compute an overall measure of how much a UL is used and the relative use of both ULs.
 
 The detailed module documentation for `measures` can be found [here](ulmeasuresdoc).
 
 ## Overall UL Activity
-The overall UL activity can be computed from the average UL activtiy measures[^david2021b]. This can be computed using the function `measures.hq` in the `measures` module. 
+The overall UL activity can be computed from the average UL activity measures[^david2021b]. This can be computed using the function `measures.Hq` in the `measures` module. 
 
 ```{code} python
 >>> import numpy as np
@@ -59,7 +59,7 @@ Plotting the different variables from the above code snippet, we get the followi
 
 ![Alt text](_static/latinx.svg)
 
-When only the one of the limbs is used, the laterality index is +1 or -1; when both are not used, the laterality index is undefined.
+When only one of the limbs is used, the laterality index is +1 or -1; when both are not used, the laterality index is undefined.
 
 **References**
 [^david2021b]: David, Ann, Tanya Subash, S. K. M. Varadhan, Alejandro Melendez-Calderon, and Sivakumar Balasubramanian. "A framework for sensor-based assessment of upper-limb functioning in hemiparesis." Frontiers in Human Neuroscience 15 (2021).
