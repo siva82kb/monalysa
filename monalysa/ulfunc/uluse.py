@@ -22,6 +22,9 @@ def from_vec_mag(vecmag: np.array,
     """A single threshold based algorithm for computing UL use
     from activity counts.
 
+    The current version computes UL use at every time instance. Future versions 
+    might include options for computing UL use are specificed regular intervals.
+
     Parameters
     ----------
     vecmag : np.array
@@ -33,7 +36,7 @@ def from_vec_mag(vecmag: np.array,
     -------
     tuple[np.array, np.array]
         A tuple of 1D numpy arrays. The first 1D array is the list of time 
-        indices of the computed UL use signal. The second ID array is the UL 
+        indices of the computed UL use signal. The second 1D array is the UL 
         use signal, which is a binary signal indicating the presence or absence 
         of a "functional" movement any time instant.
     """
@@ -49,6 +52,9 @@ def from_vec_mag_dblth(vecmag: np.array, thresh_l: float,
                        thresh_h: float) -> tuple[np.array, np.array]:
     """A hysteresis based based algorithm for computing UL use
     from activity counts.
+
+    The current version computes UL use at every time instance. Future versions 
+    might include options for computing UL use are specificed regular intervals.
     
     Note: Since this method requires information about the past value of
     UL use, you must ensure that the activity counts input is from a
@@ -97,8 +103,8 @@ def from_vec_mag_dblth(vecmag: np.array, thresh_l: float,
     return (np.arange(len(_uluse)), _uluse)
 
 
-def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
-                        nwin: int) -> np.array:
+def estimate_accl_pitch(accl: np.array, fs: float, accl_farm_inx: int, elb_to_farm: bool,
+                        nwin: int = None) -> np.array:
     """
     Estimates the pitch angle of the forearm from the accelerometer data.
 
@@ -108,7 +114,9 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
         2D numpy array containing the acceleration data with columns 
         corresponding to different components (at most 3), and rows 
         corresponding to sampling instants.
-    farm_inx : int
+    fs : float
+        Sampling frequency of the acceleration data. Must be a positive number.
+    accl_farm_inx : int
         Index of the forearm component of the acceleration data. Must be an integer between 0 and the number of columns in accl.
     elb_to_farm: bool
         Indicates if the axis points from the elbow to forearm, or the other way around.
@@ -121,9 +129,13 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
         1D numpy array containing the pitch angle of the forearm estimated from
         the accelerometer data.
     """
+    if nwin is None:
+        nwin = int(fs)
+    
     assert len(accl.shape) == 2, "accl must be a 2D numpy array."
     assert accl.shape[1] <= 3, "accl must have at most 3 columns."
-    assert farm_inx >= 0 and farm_inx < accl.shape[1], "farm_inx must be an integer between 0 and the number of columns in the accelerometer data."
+    assert fs > 0, "fs (sampling frequency) must be a positive number."
+    assert accl_farm_inx >= 0 and accl_farm_inx < accl.shape[1], "accl_farm_inx must be an integer between 0 and the number of columns in the accelerometer data."
     assert type(elb_to_farm) == bool, "elb_to_farm must be a boolean."
     assert nwin > 0, "nwin must be a positive integer."
 
@@ -132,11 +144,11 @@ def estimate_accl_pitch(accl: np.array, farm_inx: int, elb_to_farm: bool,
     # Compute the norm of the acceleration vector
     acclfn = acclf / np.linalg.norm(acclf, axis=1, keepdims=True)
     _sign = 1 if elb_to_farm else -1
-    return _sign * np.rad2deg(np.arcsin(acclfn[:, farm_inx]))
+    return _sign * np.rad2deg(np.arcsin(acclfn[:, accl_farm_inx]))
 
 
-def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.1, nc: int = 2,
-                      n_am: int = None) -> np.array:
+def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.01, nc: int = 2,
+                      nam: int = None) -> np.array:
     """
     Computes the magnitude of the accelerometer signal.
 
@@ -148,11 +160,11 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.1, nc: int = 2,
         corresponding to sampling instants.
     fs : float
         Sampling frequency of the acceleration data.
-    fc : float, default = 0.1
+    fc : float, default = 0.01
         Cutoff frequency for the highpass filter used for filtering the acceleration data.
     nc : int, default = 2
         Order of the highpass filter used for filtering the acceleration data.
-    n_am : int, default = 5*fs
+    nam : int, default = fs / 2
         Number of samples to use for moving averaging. Must be a positive integer.
     
     Returns
@@ -162,15 +174,15 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.1, nc: int = 2,
     """
 
     # Default values
-    if n_am == None:
-        n_am = 5*fs
+    if nam == None:
+        nam = int(fs / 2)
 
     assert len(accl.shape) == 2, "accl must be a 2D numpy array."
     assert accl.shape[1] <= 3, "accl must have at most 3 columns."
     assert fs > 0, "fs must be a positive number."
     assert fc > 0, "fc must be a positive number."
     assert nc > 0, "nc must be a positive integer."
-    assert n_am > 0, "n_am must be a positive integer."
+    assert nam > 0, "nam must be a positive integer."
     
     # Highpass filter the acceleration data.
     sos = signal.butter(nc, fc, btype='highpass', fs=fs, output='sos')
@@ -182,7 +194,7 @@ def estimate_accl_mag(accl: np.array, fs: float, fc: float = 0.1, nc: int = 2,
     amag = np.linalg.norm(accl_filt, axis=1)
     
     # Return the moving averaged amag
-    return signal.lfilter(np.ones(n_am) / n_am, 1, amag, axis=0)
+    return signal.lfilter(np.ones(nam) / nam, 1, amag, axis=0)
 
 
 def detector_with_hystersis(x: np.array, th: float, th_band: float) -> np.array:
@@ -215,13 +227,19 @@ def detector_with_hystersis(x: np.array, th: float, th_band: float) -> np.array:
     return y
 
 
-def from_gmac(accl: np.array, fs: float, 
+def from_gmac(accl: np.array, fs: float,
               accl_farm_inx: int, elb_to_farm: bool,
-              nwin: int = None, fc: float = 0.1, nc: int = 2, nam: int = None,
+              nwin: int = None, fc: float = 0.01, nc: int = 2, nam: int = None,
               p_th: float = 10, p_th_band: float = 40,
-              am_th: float = 0.1, am_th_band: float = 0) -> np.array:
+              am_th: float = 0.1, am_th_band: float = 0) -> tuple[np.array, np.array, np.array, np.array]:
     """
     Computes UL use using the GMAC algorithm with pitch and acceleration magnitude estimated only from acceleration.
+
+    The current version computes UL use at every time instance. Future versions 
+    might include options for computing UL use are specificed regular intervals.
+
+    The default values of the parameters are the optimal values found for the generic (inter-subject, inter-limb) model for GMAC in the following paper:
+    Balasubramanian, Sivakumar. "GMAC–A simple measure to quantify upper limb use from wrist-worn accelerometers." IEEE Transactions on Neural Systems and Rehabilitation Engineering (2024).
 
     Parameters
     ----------
@@ -234,13 +252,13 @@ def from_gmac(accl: np.array, fs: float,
         Index of the forearm component of the acceleration data. Must be an integer between 0 and  and the number of columns in accl.
     elb_to_farm: bool
         Indicates if the axis points from the elbow to forearm, or the other way around.
-    nwin : int, default = fs/2
+    nwin : int, default = fs
         Number of samples to use for moving averaging for estimating the pitch angle of the forearm. Must be a positive integer.
-    fc : float, default = 0.1
+    fc : float, default = 0.01
         Cutoff frequency for the highpass filter used for filtering the acceleration data. Must be a positive number.
     nc : int, default = 2
         Order of the highpass filter used for filtering the acceleration data. Must be a positive integer.
-    nam : int, default = 5*fs
+    nam : int, default = fs/2
         Number of samples to use for moving averaging for computing the magnitude of the acceleration. Must be a positive integer.
     p_th : float, default = 10
         Upper threshold for the pitch angle in degrees.
@@ -253,26 +271,30 @@ def from_gmac(accl: np.array, fs: float,
 
     Returns
     -------
-    np.array
-        Returns a 2D array with 3 columns and N rows. The first column corresponds
-        to the pitch angle, the second column corresponds to the acceleration
-        magnitude, and the third column corresponds to the GMAC output. 
+    tuple[np.array, np.array, np.array, np.array]
+        A tuple of 1D numpy arrays. The first 1D array is the list of time 
+        indices of the computed UL use signal. The second 1D array is the UL 
+        use signal, which is a binary signal indicating the presence or absence 
+        of a "functional" movement any time instant. The third and fourth 1D arrays 
+        are the pitch angle and acceleration magnitude estimated from the acceleration 
+        data, respectively.
     """
     # Default values
     if nwin is None:
-        nwin = int(fs/2)
+        nwin = int(fs)
 
     if nam is None:
-        nam = 5*fs
+        nam = int(fs / 2)
 
     # Estimate pitch and acceleration magnitude
-    pitch = estimate_accl_pitch(accl, accl_farm_inx, elb_to_farm, nwin)
-    accl_mag = estimate_accl_mag(accl, fs, fc=fc, nc=nc, n_am=nam)
+    pitch = estimate_accl_pitch(accl, fs=fs, accl_farm_inx=accl_farm_inx,
+                                elb_to_farm=elb_to_farm, nwin=nwin)
+    accl_mag = estimate_accl_mag(accl, fs=fs, fc=fc, nc=nc, nam=nam)
     
     # Compute GMAC
     _pout = detector_with_hystersis(pitch, th=p_th, th_band=p_th_band)
     _amout = detector_with_hystersis(accl_mag, th=am_th, th_band=am_th_band)
-    return np.array([pitch, accl_mag, _pout * _amout])
+    return (np.arange(len(_pout)), _pout * _amout, pitch, accl_mag)
 
 
 def average_uluse(usesig: np.array, windur: float, winshift: float,

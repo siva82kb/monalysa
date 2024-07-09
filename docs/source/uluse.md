@@ -54,7 +54,7 @@ The corresponding UL use outputs from the `from_vec_mag` and `from_vec_mag_dlbth
 ### GMAC (= GM + AC)
 **Gross Movement (GM) Score**. GM measure [^leuen2017] uses yaw and pitch angles computed using the Madgwick algorithm from the raw acceleration and gyroscope data. If the overall absolute change in yaw and pitch angles is higher than 30° and the absolute pitch of the forearm is within ± 30° in a time window, GM is defined as 1 (indicating functional use), else it is 0. The GM measure exploits the nature of most functional movements to occur in this ‘functional space’, i.e., in the region in front of the subject around his/her chest height.
 
-The AC measures are known to be highly sensitive while having very low specificity, and GM is highly specific but not sensitive [^subash2022]. The hybrid measure — GMAC combines the essential elements of TAC and GM measures. It employs counts with a modified GM measure; the counts are used instead of the absolute change in yaw and pitch angles. The ```from_gmac``` function in the ```uluse``` module uses an optimized version of the algorithm with a hysteresis threshold on the pitch angles [^gmac]. This recently formulated GMAC requires only the raw acceleration data from the forearm. When optimized, it performs as well as a machine learning algorithm trained to work across subjects[^gmac].
+The AC measures are known to be highly sensitive while having very low specificity, and GM is highly specific but not sensitive [^subash2022]. The hybrid measure — GMAC combines the essential elements of TAC and GM measures. It employs counts with a modified GM measure; the counts are used instead of the absolute change in yaw and pitch angles. The ```from_gmac``` function in the ```uluse``` module uses an optimized version of the algorithm with a hysteresis threshold on the pitch angles [^bala2024]. This recently formulated GMAC requires only the raw acceleration data from the forearm. When optimized, it performs as well as a machine learning algorithm trained to work across subjects[^bala2024].
 
 ![Alt text](_static/gmac_accl.svg)
 
@@ -65,21 +65,22 @@ The AC measures are known to be highly sensitive while having very low specifici
 >>> t = np.arange(0, T, 1/fs)
 >>> ax = 0.5 * np.sin(0.2 * 2 * np.pi * t)
 >>> ay = 0.1 * np.sin(0.05 * 2 * np.pi * t)
->>> az = 0.8 * np.sin(0.02 * 2 * np.pi * t)
+>>> az = 0.8 * np.sin(0.02 * 2 * np.pi * t) + 0.01
 >>> accl = np.array([ax, ay, az]).T
 >>> accl_farm_inx = 0   # index of the column with acceleration along the forearm 
 >>> elb_to_farm = True  # axis points from elbow to forearm
->>> pitch, amag, use = uluse.from_gmac(accl, fs, accl_farm_inx, elb_to_farm)
+>>> _, use, pitch, amag = uluse.from_gmac(accl, fs=fs, accl_farm_inx=accl_farm_inx,
+                                          elb_to_farm=elb_to_farm)
 >>> print("Pitch: ", pitch)
 >>> print("Accl. mag: ", amag)
 >>> print("Use (GMAC): ", use)
-Pitch:  [         nan  80.48298345  80.48104485 ... -13.55580179 -12.70897362
- -11.85026972]
-Accl. mag:  [0.00000000e+00 5.05107719e-05 1.50603641e-04 ... 3.11586714e-01
- 3.11590258e-01 3.11593662e-01]
+Pitch:  [  0.          29.71040273  46.24725865 ... -21.63656029 -21.01257394
+ -20.37245668]
+Accl. mag:  [3.99644727e-04 1.09427227e-03 2.24360867e-03 ... 7.68940311e-01
+ 7.66124033e-01 7.63457863e-01]
 Use (GMAC):  [0. 0. 0. ... 0. 0. 0.]
 ```
-The plot of the different signals in the above code snippets is shown below.
+The plot of the different signals in the above code snippets is shown below. 
 
 ![Alt text](_static/gmac_use.svg)
 
@@ -91,4 +92,4 @@ The best performing UL use methods are machine learning methods that are optimiz
 [^delucena2017]: de Lucena, Diogo S., Oliver Stoller, Justin B. Rowe, Vicky Chan, and David J. Reinkensmeyer. "Wearable sensing for rehabilitation after stroke: Bimanual jerk asymmetry encodes unique information about the variability of upper extremity recovery." In 2017 International Conference on Rehabilitation Robotics (ICORR), pp. 1603-1608. IEEE, 2017.
 [^leuen2017]: Leuenberger, Kaspar, Roman Gonzenbach, Susanne Wachter, Andreas Luft, and Roger Gassert. "A method to qualitatively assess arm use in stroke survivors in the home environment." Medical & biological engineering & computing 55 (2017): 141-150.
 [^subash2022]: Subash, Tanya, Ann David, StephenSukumaran ReetaJanetSurekha, Sankaralingam Gayathri, Selvaraj Samuelkamaleshkumar, Henry Prakash Magimairaj, Nebojsa Malesevic et al. "Comparing algorithms for assessing upper limb use with inertial measurement units." Frontiers in Physiology 13 (2022): 2611.
-[^gmac]: Balasubramanian, Sivakumar. "GMAC: A simple measure to quantify upper limb use from wrist-worn accelerometers." medRxiv (2023): 2023-11.
+[^bala2024]: Balasubramanian, Sivakumar. "GMAC–A simple measure to quantify upper limb use from wrist-worn accelerometers." IEEE Transactions on Neural Systems and Rehabilitation Engineering (2024).
